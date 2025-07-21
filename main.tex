@@ -1,0 +1,245 @@
+%%% Document Formatting
+\documentclass[12pt,fleqn]{article}
+\usepackage[a4paper,
+            bindingoffset=0.2in,
+            left=0.75in,
+            right=0.75in,
+            top=0.8in,
+            bottom=0.8in,
+            footskip=.25in]{geometry}
+\setlength\parindent{10pt} % No indent
+
+%%% Imports
+% Mathematics
+\usepackage{amsmath} % Math formatting
+\numberwithin{equation}{section} % Number equation per section
+\DeclareMathOperator{\Tr}{Tr}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{proof}{Proof}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
+
+\usepackage{amsmath}
+\usepackage{amsfonts} % Math fonts
+\usepackage{amssymb} % Math symbols
+\usepackage{mathtools} % Math etc.
+\usepackage{slashed} % Dirac slash notation
+\usepackage{cancel} % Cancels to zero
+\usepackage{empheq}
+\usepackage{breqn}
+
+\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
+
+
+% Visualization
+\usepackage{graphicx} % for including images
+\graphicspath{ {} } % Path to graphics folder
+\usepackage{tikz}
+
+
+
+%%% Formating
+\usepackage{hyperref} % Hyperlinks
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\urlstyle{same}
+
+\usepackage{mdframed} % Framed Enviroments
+\newmdenv[ 
+  topline=false,
+  bottomline=false,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{sidework} % Side-work Environment
+
+\newcounter{problem}
+\NewDocumentEnvironment{problem}{o}{%
+  \refstepcounter{problem}%
+  \IfNoValueTF{#1}
+    {\def\problem@title{Problem~\theproblem}}
+    {\def\problem@title{Problem~\theproblem ~(#1)}}%
+  \begin{mdframed}[
+    linecolor=black,
+    linewidth=0.5pt,
+    backgroundcolor=blue!2.5,
+    innertopmargin=0pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    frametitlefont=\bfseries,
+    frametitle=\problem@title,
+  ]
+}{%
+  \end{mdframed}
+} % Practice problem environment
+
+
+
+\usepackage{lipsum} % Lorem Ipsum example text
+
+
+
+
+%%%%% ------------------ %%%%%
+%%% Title
+\title{E\&M I Recitation Notes}
+\author{Clark Miyamoto (cm6627@nyu.edu)}
+\date{Fall 2025}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Appendix}
+
+\subsection{Review of Vector Calculus}
+
+\subsection{Delta Function}
+You know how in Physics 101, everything was a point particle? Well in E\&M we want to build a theory which can talk about point particles (like a single electron), but also a distribution of particles (like a slab of charged metal). You can imagine if we define the point particle in a naive way, the mathematical computation will turn out wrong... This is where we introduce the \textbf{delta function}.
+\begin{sidework}
+	This will be a computational introduction, i.e. how we use and manipulate these functions. If you're more of a proper mathematician, I recommend looking at my friend \href{https://notes.panos.wiki/Analysis+Distributions}{Panos's notes (https://notes.panos.wiki)}.
+\end{sidework}
+\subsubsection{Kronecker Delta (Discrete)}
+As always, we start discrete and then promote it to be continuous.
+\begin{definition}
+	[Kronecker Delta]
+	\begin{align}
+		\delta_{ij} = \begin{cases}
+			1 & \text{if } i = j\\
+			0 & \text{otherwise}
+		\end{cases}
+	\end{align}
+	where $i,j$ are taken to be integers. It is usually unit-less.
+\end{definition}
+While this notation looks scary, if we interpret the indices as the row/column of a matrix, we realize this is just the identity matrix.
+\begin{align}
+	\mathbb I & = \begin{pmatrix}
+		1 & 0 & 0 & \\
+		0 & 1 & 0 & ...\\
+		0 & 0 & 1 & \\
+	  	  & \vdots & & \ddots
+	\end{pmatrix} \implies [\mathbb I]_{ij}  = \delta_{ij}
+\end{align}
+In physics, this scary feeling will come up a lot. You'll be faced with a weird expression with kronecker deltas, etc. but you'll just realize that it ends up being a regular-old matrix operation. 
+\begin{problem}[Properties of Kronecker] There are a couple fundamental properties of Kronecker deltas. They're pretty easy, so it's your job to show them!
+	\begin{enumerate}
+		\item Symmetry: $\delta_{ij} = \delta_{ji}$
+		\item Contraction: $\sum_j a_j \delta_{ij} = a_i$
+		\item Dimension: $\sum_{i=1}^n \delta_{ii} = n$
+	\end{enumerate}
+\end{problem}
+Now we can apply our properties to break-down an expression with Kronecker deltas.
+\begin{sidework}
+	\emph{Example:} Consider the expression $\sum_{i=1}^n \sum_{j=1}^n \delta_{ij} a_i b_j$. If we interpret $a_i$ ($b_i$) as being the $i$'th entry from vector $\vec a$ ($\vec b$). What fundamental vector operation is this expression?
+\begin{align}
+	\sum_{i=1}^n \sum_{j=1}^n \delta_{ij} a_i b_j & = \sum_{i=1}^n a_i b_i & \text{Contraction property} \\
+	& = \vec a \cdot \vec b & \text{By definition of dot product}
+\end{align}
+Wow it's just a dot product. Another way to see this is to use the identity matrix fact.
+\begin{align}
+	\sum_{i=1}^n \sum_{j=1}^n \delta_{ij} a_i b_j = \vec a^T ~\mathbb I ~\vec b = \vec a \cdot \vec b
+\end{align}
+Going back to the first proof. We that Kronecker deltas allow us to evaluate sums, this is because it is zero when $i \neq j$, so the only remaining component is $i= j$.
+\end{sidework}
+To get you comfortable with this, here's a couple of practice problems.
+\begin{problem}[Kroneckers are not scary!]
+	Let $A$ be a matrix, where $A_{ij} \equiv [A]_{ij}$ are the $i,j$'th entries of the matrix. What are the following expressions in-terms of simple linear algebra operations.
+	\begin{enumerate}
+		\item $\sum_{ij} \delta_{ij} A_{ij}$ 
+		\item $\sum_{k\ell} \delta_{jk} \delta_{i \ell} A_{\ell k}$
+		\item $\sum_{k\ell} \frac{1}{2} (\delta_{ij} \delta_{j\ell} + \delta_{i \ell} \delta_{jk}) A_{k\ell} $
+	\end{enumerate}
+\end{problem}
+
+
+\subsubsection{Dirac Delta (Continuous)}
+\begin{definition}
+	[Dirac Delta / Delta Function)] The heuristic definition is
+	\begin{align}
+		\delta(x-x') & = \begin{cases}
+			\infty & \text{if } x = x'\\
+			0 & \text{otherwise}
+		\end{cases}\\
+		\text{s.t. } \int_{\mathbb R} \delta(x-x')  & = 1
+	\end{align}
+\end{definition}
+What is particularly funky, is this is not a function! It is a distribution! For our purposes, this means \underline{delta functions are only defined inside an integral}. So if you ever see equations with delta functions, these are truly only defined when you integrate both sides of the equation.
+
+
+
+
+
+
+
+
+
+\subsection{Fourier Analysis}
+If you're a STEM major, you have probably seen \href{https://www.youtube.com/watch?v=spUNpyF58BY}
+{3Blue1Brown's video on Fourier Analysis} (if you haven't, you should watch it now!). Basically he visualizes how complex signals can be decomposed into pure-signals of sines and cosines. I'll try to introduce it again, but lay the notation \& computational workflow for accomplishing this.\\
+\\
+What we'll learn is that any piecewise-smooth function can be represented as a linear combination of $\sin$ and $\cos$
+\begin{align}
+	f(x) & = A_0 + \sum_{n=1}^\infty \left [ A_n \cos \left( \tfrac{2\pi n}{P} x \right) + B_n \sin (\tfrac{2\pi n}{P} x) \right]\\
+	\text{s.t. } A_0 & = \frac{1}{P} \int_{P} f(a)~ da\\
+	A_n & = \frac{2}{P} \int_P f(a) \cos \left( \tfrac{2\pi n}{P} a \right) ~da & (n \geq 1)\\
+	B_n & = \frac{2}{P} \int_P f(x) \sin \left( \tfrac{2\pi n}{P} a \right) ~da & (n \geq 1)
+\end{align}
+
+\subsubsection{Fourier Series Expansion}
+
+
+
+\subsubsection{Fourier Transform}
+
+\subsubsection{Connection to Linear Independence / Basis}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
