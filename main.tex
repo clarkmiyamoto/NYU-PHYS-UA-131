@@ -98,18 +98,20 @@
 
 \maketitle
 
+\section{Note to Reader}
+Problems more relevant to this class have an asterisk $(*)$, the other problems are good for your progression as a physicist. I'm also not too smart, so I need to do the same problems multiple times to really feel comfortable; I've been told most humans do not have this problem, so feel free to just do one or two and move on with your life.
+
 \tableofcontents
 
-\section{Appendix}
+\newpage
+\section{Week 1: Delta Functions}
 
-\subsection{Review of Vector Calculus}
 
-\subsection{Delta Function}
 You know how in Physics 101, everything was a point particle? Well in E\&M we want to build a theory which can talk about point particles (like a single electron), but also a distribution of particles (like a slab of charged metal). You can imagine if we define the point particle in a naive way, the mathematical computation will turn out wrong... This is where we introduce the \textbf{delta function}.
 \begin{sidework}
-	This will be a computational introduction, i.e. how we use and manipulate these functions. If you're more of a proper mathematician, I recommend looking at my friend \href{https://notes.panos.wiki/Analysis+Distributions}{Panos's notes (https://notes.panos.wiki)}.
+	This will be a computational introduction, i.e. how we use and manipulate these functions. If you're more of a proper mathematician, I recommend looking at my friend \href{https://notes.panos.wiki/Analysis+Distributions}{Panos's notes (https://notes.panos.wiki)}. He has a very well written notes for mathematicians working on physics.
 \end{sidework}
-\subsubsection{Kronecker Delta (Discrete)}
+\subsection{Kronecker Delta (Discrete)}
 As always, we start discrete and then promote it to be continuous.
 \begin{definition}
 	[Kronecker Delta]
@@ -145,7 +147,9 @@ Now we can apply our properties to break-down an expression with Kronecker delta
 	\sum_{i=1}^n \sum_{j=1}^n \delta_{ij} a_i b_j & = \sum_{i=1}^n a_i b_i & \text{Contraction property} \\
 	& = \vec a \cdot \vec b & \text{By definition of dot product}
 \end{align}
-Wow it's just a dot product. Another way to see this is to use the identity matrix fact.
+Wow it's just a dot product. \\
+\\
+Another way to see this is to use the identity matrix fact.
 \begin{align}
 	\sum_{i=1}^n \sum_{j=1}^n \delta_{ij} a_i b_j = \vec a^T ~\mathbb I ~\vec b = \vec a \cdot \vec b
 \end{align}
@@ -162,18 +166,193 @@ To get you comfortable with this, here's a couple of practice problems.
 \end{problem}
 
 
-\subsubsection{Dirac Delta (Continuous)}
+\subsection{Dirac Delta (Continuous)}
+\subsubsection{Definition and Properties}
 \begin{definition}
-	[Dirac Delta / Delta Function)] The heuristic definition is
+	[Dirac Delta/Delta Function, Heuristic] The delta function $\delta(x)$ is defined by the properties
 	\begin{align}
 		\delta(x-x') & = \begin{cases}
 			\infty & \text{if } x = x'\\
 			0 & \text{otherwise}
 		\end{cases}\\
-		\text{s.t. } \int_{\mathbb R} \delta(x-x')  & = 1
+		\text{s.t. } \int_{\mathbb R} \delta(x-x')d x  & = 1
 	\end{align}
 \end{definition}
-What is particularly funky, is this is not a function! It is a distribution! For our purposes, this means \underline{delta functions are only defined inside an integral}. So if you ever see equations with delta functions, these are truly only defined when you integrate both sides of the equation.
+What is particularly funky, is this is not a function! It is a \textbf{distribution}! For our purposes, this means \underline{delta functions are only defined when being integrated against "well-behaved" functions}. So if you ever see an equality between a delta functions, these are only defined when you integrate both sides of the equation.\\
+\\
+Let me say this again a little more formally
+\begin{definition}[Dirac Delta / Delta Function, Less Heuristic] Let $\varphi$ be a arbitrary test function (infinitely differentiable function with compact support). For our purposes, this means $\varphi(x)$ has the following properties
+\begin{itemize}
+	\item For all $n \in \mathbb N$, the derivative is finite $\frac{d^n}{dx^n}\varphi(x) < \infty$ 
+	\item It goes to zero "quick-enough" as $x \to \infty$ such that $\int_{-\infty}^\infty \varphi(x) dx < \infty$.
+	\item The first two imply it is zero at the boundary: $\lim_{x\to \infty} \varphi(x) = \lim_{x \to -\infty} \varphi(x) = 0$
+\end{itemize}
+The delta function is defined as
+\begin{align}
+	\int \varphi(x) \delta(x) dx = \varphi(0)
+\end{align}
+for all $\varphi$ test function.
+\end{definition}
+\textbf{Properties:}
+\begin{itemize}
+	\item Units: $\delta(x)$ has units $[x]^{-1}$.
+	\begin{sidework}
+		\emph{Proof:} We can see this by inspecting the integral
+		\begin{align}
+			\int \delta(x) dx = 1
+		\end{align}
+		The measure $dx$ has units $[x]$, and the RHS has no units. Therefore $\delta(x)$ must have units $[x]^{-1}$. QED.
+	\end{sidework}
+	\item Scaling
+		\begin{align}
+			\delta(a x) = \frac{\delta(x)}{|a|}
+		\end{align}
+		\begin{sidework}
+	Remember, when you see $"="$ equalities, this really mean 
+	"these are equal when being integrated against an arbitrary test function $\varphi$".\\
+	\\
+	So when I write
+	\begin{align}
+		\delta(a x) \text{ "=" } \frac{\delta(x)}{|a|}
+	\end{align}
+	What I implicitly mean is
+	\begin{align}
+		\int \delta(a x) \varphi(x) dx = \int \frac{\delta(x)}{|a|} \varphi(x) dx, ~~\forall \varphi \in \text{Test Functions}
+	\end{align} So now let's prove it!\\
+	\\
+	\emph{Proof:} Consider the LHS being integrated against an arbitrary test function. We'll find it becomes the RHS We'll have to do this twice, once with $a = |a| > 0$ and $a = -|a| < 0$. Let's do the positive case:
+	\begin{align}
+		\int_{-\infty}^\infty \delta (ax) \varphi (x) dx & = \int_{-\infty}^\infty \frac{\delta(x)}{a} \varphi(x/a) dx  & u\text{-sub}~ x \mapsto x/a\\
+		& = \frac{1}{a} \varphi(0) & \text{By def: }\int \delta(x) g(x) dx = g(0)
+	\end{align}
+	So it effectively acts like $\delta(x)/a$. If you instead $u$-sub'ed $x\mapsto - x /|a|$, you'll have gotten $\varphi(0) / a$. Thus we've shown
+	\begin{align}
+		\int \delta(ax) \varphi(x) dx = \int \frac{\delta(x)}{|a|} \varphi(x) dx
+	\end{align} QED.
+\end{sidework}
+	\item Symmetry: by consequence of scaling
+		\begin{align}
+			\delta(-x) = \delta(x)
+		\end{align}
+	\item Translation
+		\begin{align}
+			\int \varphi(x) \delta(x- x') = \varphi(x')
+		\end{align} 
+\end{itemize}
+
+
+
+\begin{problem}
+	Charge distributions $\rho(\mathbf r') \equiv \text{Total Charge } (C) / \text{Volume of Charge } (m^3)$ often have delta functions in them. First 
+	\begin{itemize}
+		\item Point charge w/ total charge $Q$.
+		\item Infinite 2D plane lying on $z=0$, with charge/area $\sigma$
+		\item Square plane lying in $z=0$ centered at $(x,y) = (0,0)$. It has finite length 
+		\item Spherical shell of radius $R$ with  
+		\item 
+	\end{itemize}
+	How would you check your answer is correct?
+\end{problem}
+
+\subsubsection{Showing something is a delta function in disguise}
+In lecture, Grier mentioned the divergence of the vector field $\mathbf F(\mathbf r) = \frac{\mathbf{\hat{r}}}{\mathbf r^2}$ was
+\begin{align}
+	\boxed{\nabla \cdot \left ( \frac{\mathbf{\hat{r}}}{\mathbf r^2}\right) = 4\pi ~\delta^{(3)} (\mathbf r - \mathbf r')}
+\end{align}
+where $\nabla$ is the gradient operator.\\
+\\
+If you naively plug n' chug, you'd find $\nabla \cdot \left ( \frac{\mathbf{\hat{r}}}{\mathbf r^2}\right) =^? 0$. This is an artifact of a coordinate singularity (like how can you differentiate at $r \to 0$, it's not continuous). \\
+\\
+Grier makes a physics argument using $\nabla \cdot \mathbf E =  \rho / \epsilon_0$ as to why these are related. Here I'll show a mathematical proof.
+\\
+\\
+\emph{Proof:} Recall a delta function is defined inside an integral, so we'll integrate this against an arbitrary scalar test function $\varphi : \mathbb R^3 \to \mathbb R$, and show it behaves like a delta function.\\
+\\
+First we can integrate by parts by noting $\text{div}(\vec f g) = (\nabla \cdot \vec f) g + \vec f \nabla g$
+\begin{align}
+	\int \varphi(\mathbf r) \nabla \cdot \left( \frac{\mathbf{\hat{r}}}{\mathbf r^2} \right) d^3 r & = \underbrace{\int \nabla\cdot (\varphi(\mathbf r) \frac{\mathbf{\hat{r}}}{\mathbf r^2}) d^3r}_{\text{Term (1)}} - \underbrace{\int \nabla\varphi(\mathbf r) \cdot \frac{\mathbf{\hat{r}}}{\mathbf r^2} d^3r}_{\text{Term (2)}}
+\end{align}
+
+
+Term (1): Use the divergence theorem
+\begin{align}
+	\int_V \nabla\cdot \left(\varphi(\mathbf r) \frac{\mathbf{\hat{r}}}{\mathbf r^2} \right) d^3r & = \int_{\partial V} \frac{\varphi(\mathbf r)}{\mathbf r^2}  \mathbf{\hat r} \cdot d\mathbf S \\
+	& = 0 & \varphi \text{ vanishes at infinity}
+\end{align}
+\begin{sidework}
+	This was a heuristic equality. To be formal, you would want to show
+	\begin{theorem}
+		Let $f : U \to \mathbb R^d$ be a vector field which is $C^1$-smooth, and continuous up to the boundary of the domain $\partial U$. Then $\int_V \text{div} (F) = 0$.\\
+		\\
+		If $U$ is unbounded, this holds when the directional derivative $\partial_{\vec v} f$ is absolutely integrable $\int_U |\partial_{\vec v} f| < \infty$.
+	\end{theorem}
+	Test functions, by definition, fit these assumptions. For discussion see \href{https://mathoverflow.net/questions/150283/a-special-case-of-the-divergence-theorem}{this StackExchange post}.
+\end{sidework}
+
+Term (2): Use spherical coordinates
+\begin{align}
+	\int \nabla\varphi(\mathbf r) \cdot \frac{\mathbf{\hat{r}}}{\mathbf r^2} d^3r & = \int \nabla \varphi(\mathbf r) \cdot \frac{\mathbf{\hat{r}}}{\mathbf r^2} ~r^2 dr   d \Omega \\
+	&= 4\pi   \int_0^\infty \frac{\partial \varphi}{\partial r}  dr \\
+	& = 4\pi \varphi(r) \Big|_{r=0}^\infty & \text{Fundamental Theorem of Calculus}\\
+	&  = 4\pi ( \cancelto{0}{\varphi(\infty)} - \varphi(0)) & \varphi \text{ vanishes at infinity}\\
+	& = -4\pi \varphi(0)
+\end{align}
+Putting this all together
+\begin{align}
+	\int \varphi(\mathbf r) \nabla \cdot \left( \frac{\mathbf{\hat{r}}}{\mathbf r^2} \right) d^3 r = 4\pi \varphi(0)
+\end{align}
+Remember, if it acts like a delta function, it is a delta function by definition. QED.\\
+\\
+In general, proofs of this nature have lots of by parts calculations.
+ 
+
+
+
+\begin{problem}[Representations of Delta Functions] The delta function emits an infinite number of representations. These are some common ones. Prove that they're actually delta functions!
+	\begin{itemize}
+		\item $(\star)$ Fourier Representation (very important for quantum mechanics!)
+		\begin{align}
+			\delta(x) = \int_{\mathbb R} \frac{d k}{2\pi} ~ e^{i k x}
+		\end{align}
+		
+		\item Gaussian Representation
+		\begin{align}
+			\delta(x) = \lim_{\epsilon \to 0^+}  \frac{1}{\epsilon \sqrt{2\pi}} \exp \left(-\frac{1}{2} \frac{x^2}{\epsilon^2} \right)
+		\end{align}
+	\end{itemize}
+	A good question to ask yourself, how do these generalize when $x \in \mathbb R^d$?
+\end{problem}
+
+\newpage
+\section{Week 2: }
+
+
+\newpage
+\section{Appendix}
+
+\subsection{Review of Vector Calculus}
+\subsubsection{Coordinates}
+In this section, and probably for everything else in these notes, we'll assume we work with functions that have domain on $\mathbb R^3$.\\
+\\
+Consider a vector $\vec r \in \mathbb R^3$. We can also decompose it a complete basis $\{\mathbf{\hat x}, \mathbf{\hat y}, \mathbf{\hat z}\}$, where the $\mathbf{\hat v}$ (hat symbol) signifies it is a unit vector.
+\begin{align}
+	\vec r  = x \mathbf{\hat x} + y \mathbf{\hat y} + z \mathbf {\hat z}
+\end{align}
+
+
+
+
+\subsubsection{Change of Coordinates of Differential Operators}
+In classical mechanics, you probably had to work with differential operators. For example: the gradient $\vec \nabla$, the laplacian $\nabla^2 \equiv \vec \nabla \cdot \vec \nabla$, etc. However these have expressions depending on your coordinate system.
+\begin{align}
+	\vec \nabla & = \frac{\partial}{\partial x} \mathbf{\hat x} + \frac{\partial}{\partial y} \mathbf{\hat y} + \frac{\partial}{\partial z} \mathbf{\hat z}\\
+	& = \frac{}{}
+\end{align}
+\begin{align
+
+
+ You might have noticed that certain problems are more amendable 
+
 
 
 
