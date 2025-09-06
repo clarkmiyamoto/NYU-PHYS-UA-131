@@ -20,6 +20,7 @@
 \newtheorem{definition}{Definition}
 \newtheorem{proof}{Proof}
 \newtheorem{lemma}{Lemma}
+\newtheorem{fact}{Fact}
 \newtheorem{example}{Example}
 
 \usepackage{amsmath}
@@ -103,7 +104,7 @@
 \tableofcontents
 
 \section{Note to Reader}
-Problems more relevant to this class have an asterisk $(*)$, the other problems are good for your progression as a physicist. I'm also not too smart, so I need to do the same problems multiple times to really feel comfortable; I've been told most humans do not have this problem, so feel free to just do one or two and move on with your life.
+Problems more relevant to this class have an asterisk $(*)$, the other problems are good for your progression as a physicist. I added a lot of problems because I feel more comfortable after I do the same problem a couple times, but most people don't need that much practice-- feel free to a problem or two and move on.
 
 \newpage
 \section{Week 1: Delta Functions}
@@ -238,20 +239,24 @@ for all $\varphi$ test function.
 		\begin{align}
 			\int \varphi(x) \delta(x- x') = \varphi(x')
 		\end{align} 
+	\item Variational derivative:
+	\begin{align}
+		\frac{\delta}{\delta \varphi(x)} \varphi(y) = \delta(x-y)
+	\end{align}
 \end{itemize}
 
 
 
-\begin{problem}
-	Charge distributions $\rho(\mathbf r') \equiv \text{Total Charge } (C) / \text{Volume of Charge } (m^3)$ often have delta functions in them. First 
+\begin{problem}[$\star$ Charge Distributions]
+	Charge distributions $\rho(\mathbf r') \equiv \text{Total Charge } (C) / \text{Volume of Charge } (m^3)$ often have delta functions in them. Given some example systems, find their representation in terms of delta functions: 
 	\begin{itemize}
 		\item Point charge w/ total charge $Q$.
-		\item Infinite 2D plane lying on $z=0$, with charge/area $\sigma$
-		\item Square plane lying in $z=0$ centered at $(x,y) = (0,0)$. It has finite length 
-		\item Spherical shell of radius $R$ with  
-		\item 
+		\item Infinite charged line lying on $(x,y) = (0,0)$, with linear charge density $\lambda$ (has units $[C/m]$).
+		\item Infinite 2D plane lying on $z=0$, with surface charge density $\sigma$ (has units $[C/m^2]$).
+		\item Infinite cylinder with radius $R$, with surface charge $\sigma$.
+		\item Spherical shell of radius $R$, with total charge $Q$. 
 	\end{itemize}
-	How would you check your answer is correct?
+	\emph{Discussion:} How would you check your answer is correct? Recall equalities of expressions with delta functions are only defined in-terms of integrals, what does this mean in-terms of the physical system?
 \end{problem}
 
 \subsubsection{Showing something is a delta function in disguise}
@@ -281,11 +286,11 @@ Term (1): Use the divergence theorem
 \end{align}
 \begin{sidework}
 	This was a heuristic equality. To be formal, you would want to show
-	\begin{theorem}
+	\begin{fact}
 		Let $f : U \to \mathbb R^d$ be a vector field which is $C^1$-smooth, and continuous up to the boundary of the domain $\partial U$. Then $\int_V \text{div} (F) = 0$.\\
 		\\
-		If $U$ is unbounded, this holds when the directional derivative $\partial_{\vec v} f$ is absolutely integrable $\int_U |\partial_{\vec v} f| < \infty$.
-	\end{theorem}
+		If $U$ is unbounded, this still holds when the directional derivative $\partial_{\vec v} f$ is absolutely integrable $\int_U |\partial_{\vec v} f| < \infty$.
+	\end{fact}
 	Test functions, by definition, fit these assumptions. For discussion see \href{https://mathoverflow.net/questions/150283/a-special-case-of-the-divergence-theorem}{this StackExchange post}.
 \end{sidework}
 
@@ -304,12 +309,13 @@ Putting this all together
 Remember, if it acts like a delta function, it is a delta function by definition. QED.\\
 \\
 In general, proofs of this nature have lots of by parts calculations.
- 
-
-
-
 \begin{problem}[Representations of Delta Functions] The delta function emits an infinite number of representations. These are some common ones. Prove that they're actually delta functions!
 	\begin{itemize}
+		\item 8Laplacian Representation:
+		\begin{align}
+			\delta^{(3)} (\mathbf r - \mathbf r') = - \frac{1}{4\pi} \nabla^2 \frac{1}{|\mathbf r - \mathbf r'|}
+		\end{align}
+		where $|\cdot |$ is the magnitude of a vector.
 		\item $(\star)$ Fourier Representation (very important for quantum mechanics!)
 		\begin{align}
 			\delta(x) = \int_{\mathbb R} \frac{d k}{2\pi} ~ e^{i k x}
@@ -353,7 +359,14 @@ In classical mechanics, you probably had to work with differential operators. Fo
 
 
 
-
+\subsection{Helmholtz Theorem}
+\begin{theorem}
+	[Helmholtz Theorem] Consider a vector field $\mathbf F \in C^2(V)$ where the domain is bounded $V \subseteq \mathbb R^3$. Then $\mathbf F$ can be decomposed into a curl free component and divergence free component
+	\begin{align}
+		\mathbf F = - \nabla \Phi + \nabla \times \mathbf A,\\
+		\Phi(\mathbf r)
+	\end{align}
+\end{theorem}
 
 
 
