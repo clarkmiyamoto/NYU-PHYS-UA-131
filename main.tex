@@ -32,13 +32,22 @@
 \usepackage{empheq}
 \usepackage{breqn}
 
-\newcommand{\expect}[1]{\mathbb{E}\left[#1\right]}
-
 
 % Visualization
 \usepackage{graphicx} % for including images
 \graphicspath{ {} } % Path to graphics folder
 \usepackage{tikz}
+% Needed for \NewDocumentEnvironment and \IfNoValueTF
+\usepackage{xparse}
+
+% Needed for the pgfplots-based delta drawings I shared
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15} % or any recent version you have
+
+% (Optional) nicer arrowheads for TikZ/pgfplots
+\usetikzlibrary{arrows.meta}
+
+\usepackage{caption} % for \captionof
 
 
 
@@ -172,21 +181,43 @@ To get you comfortable with this, here's a couple of practice problems.
 \begin{definition}
 	[Dirac Delta/Delta Function, Heuristic] The delta function $\delta(x)$ is defined by the properties
 	\begin{align}
-		\delta(x-x') & = \begin{cases}
-			\infty & \text{if } x = x'\\
+		\delta(x) & = \begin{cases}
+			\infty & \text{if } x = 0\\
 			0 & \text{otherwise}
-		\end{cases}\\
-		\text{s.t. } \int_{\mathbb R} \delta(x-x')d x  & = 1
+		\end{cases} ~~~~~~~\text{s.t. } \int_{\mathbb R} \delta(x)d x  = 1
 	\end{align}
 \end{definition}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \begin{axis}[
+    xlabel={$x$},
+    ymin=0, ymax=2,
+    xmin=-3, xmax=3,
+    xtick={-2,-1,0,1,2},
+    ytick=\empty,
+    clip=false
+  ]
+    \addplot[domain=-3:3, samples=2] {0};
+    \draw[->, thick] (axis cs:0,0) -- (axis cs:0,1.8)
+      node[left] {$\delta(x)$};
+  \end{axis}
+\end{tikzpicture}
+
+\captionof{figure}{Graphical representation of the Dirac delta function 
+$\delta(x)$ at the origin. The arrow indicates an “infinite” spike 
+at $x=0$, with total integral equal to 1.}
+\end{center}
+
 What is particularly funky, is this is not a function! It is a \textbf{distribution}! For our purposes, this means \underline{delta functions are only defined when being integrated against "well-behaved" functions}. So if you ever see an equality between a delta functions, these are only defined when you integrate both sides of the equation.\\
 \\
 Let me say this again a little more formally
-\begin{definition}[Dirac Delta / Delta Function, Less Heuristic] Let $\varphi$ be a arbitrary test function (infinitely differentiable function with compact support). For our purposes, this means $\varphi(x)$ has the following properties
+\begin{definition}[Dirac Delta / Delta Function, Less Heuristic] Let $\varphi$ be a arbitrary test function (an infinitely differentiable function with compact support). For our purposes, this means $\varphi(x)$ has the following properties
 \begin{itemize}
 	\item For all $n \in \mathbb N$, the derivative is finite $\frac{d^n}{dx^n}\varphi(x) < \infty$ 
-	\item It goes to zero "quick-enough" as $x \to \infty$ such that $\int_{-\infty}^\infty \varphi(x) dx < \infty$.
-	\item The first two imply it is zero at the boundary: $\lim_{x\to \infty} \varphi(x) = \lim_{x \to -\infty} \varphi(x) = 0$
+	\item It goes to zero "quick-enough" as $x \to \infty$; implying it is integrable $\int_{-\infty}^\infty \varphi(x) dx < \infty$.
+	\begin{sidework}
+		In physics, quick-enough depends on which sub-discipline you're studying. In E\&M we often mean the \href{https://en.wikipedia.org/wiki/Sommerfeld_radiation_condition}{Sommer Field radiation condition}. 
+	\end{sidework}
 \end{itemize}
 The delta function is defined as
 \begin{align}
@@ -248,15 +279,14 @@ for all $\varphi$ test function.
 
 
 \begin{problem}[$\star$ Charge Distributions]
-	Charge distributions $\rho(\mathbf r') \equiv \text{Total Charge } (C) / \text{Volume of Charge } (m^3)$ often have delta functions in them. Given some example systems, find their representation in terms of delta functions: 
+	The total charge $Q$ is related to the charge distribution $\rho(\mathbf r)$ by $Q = \int \rho(\mathbf r) d^3 r$. What are 
+$\rho(\mathbf r)$ for the following systems?
 	\begin{itemize}
-		\item Point charge w/ total charge $Q$.
-		\item Infinite charged line lying on $(x,y) = (0,0)$, with linear charge density $\lambda$ (has units $[C/m]$).
-		\item Infinite 2D plane lying on $z=0$, with surface charge density $\sigma$ (has units $[C/m^2]$).
+		\item Point charge w/ total charge $Q$. Do this in cartesian coordinates $(x,y,z)$, cylindrical coordinates $(\rho, \phi, z)$, and finally in spherical coordinates $(r, \phi, \theta)$.
 		\item Infinite cylinder with radius $R$, with surface charge $\sigma$.
 		\item Spherical shell of radius $R$, with total charge $Q$. 
 	\end{itemize}
-	\emph{Discussion:} How would you check your answer is correct? Recall equalities of expressions with delta functions are only defined in-terms of integrals, what does this mean in-terms of the physical system?
+	\emph{Discussion:} How would you check your answer is correct? Recall equalities of expressions with delta functions are only defined in-terms of integrals, what is the meaning of what you've wrote down?
 \end{problem}
 
 \subsubsection{Showing something is a delta function in disguise}
@@ -284,15 +314,6 @@ Term (1): Use the divergence theorem
 	\int_V \nabla\cdot \left(\varphi(\mathbf r) \frac{\mathbf{\hat{r}}}{\mathbf r^2} \right) d^3r & = \int_{\partial V} \frac{\varphi(\mathbf r)}{\mathbf r^2}  \mathbf{\hat r} \cdot d\mathbf S \\
 	& = 0 & \varphi \text{ vanishes at infinity}
 \end{align}
-\begin{sidework}
-	This was a heuristic equality. To be formal, you would want to show
-	\begin{fact}
-		Let $f : U \to \mathbb R^d$ be a vector field which is $C^1$-smooth, and continuous up to the boundary of the domain $\partial U$. Then $\int_V \text{div} (F) = 0$.\\
-		\\
-		If $U$ is unbounded, this still holds when the directional derivative $\partial_{\vec v} f$ is absolutely integrable $\int_U |\partial_{\vec v} f| < \infty$.
-	\end{fact}
-	Test functions, by definition, fit these assumptions. For discussion see \href{https://mathoverflow.net/questions/150283/a-special-case-of-the-divergence-theorem}{this StackExchange post}.
-\end{sidework}
 
 Term (2): Use spherical coordinates
 \begin{align}
@@ -311,7 +332,7 @@ Remember, if it acts like a delta function, it is a delta function by definition
 In general, proofs of this nature have lots of by parts calculations.
 \begin{problem}[Representations of Delta Functions] The delta function emits an infinite number of representations. These are some common ones. Prove that they're actually delta functions!
 	\begin{itemize}
-		\item 8Laplacian Representation:
+		\item Laplacian Representation:
 		\begin{align}
 			\delta^{(3)} (\mathbf r - \mathbf r') = - \frac{1}{4\pi} \nabla^2 \frac{1}{|\mathbf r - \mathbf r'|}
 		\end{align}
@@ -330,7 +351,7 @@ In general, proofs of this nature have lots of by parts calculations.
 \end{problem}
 
 \newpage
-\section{Week 2: }
+\section{Week 2: Helmholtz Theorem}
 
 
 \newpage
