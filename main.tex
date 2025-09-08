@@ -92,6 +92,28 @@
   \end{mdframed}
 } % Practice problem environment
 
+\newcounter{answer}
+\NewDocumentEnvironment{answer}{o}{%
+  \refstepcounter{answer}%
+  \IfNoValueTF{#1}
+    {\def\answer@title{Answer~\theanswer}}
+    {\def\answer@title{Answer~\theanswer ~(#1)}}%
+  \begin{mdframed}[
+    linecolor=black,
+    linewidth=0.5pt,
+    backgroundcolor=green!2.5,
+    innertopmargin=0pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    frametitlefont=\bfseries,
+    frametitle=\answer@title,
+  ]
+}{%
+  \end{mdframed}
+}
+
+
 
 
 \usepackage{lipsum} % Lorem Ipsum example text
@@ -279,10 +301,10 @@ for all $\varphi$ test function.
 
 
 \begin{problem}[$\star$ Charge Distributions]
-	The total charge $Q$ is related to the charge distribution $\rho(\mathbf r)$ by $Q = \int \rho(\mathbf r) d^3 r$. What are 
-$\rho(\mathbf r)$ for the following systems?
+	The total charge $Q$ is related to the charge distribution $\rho(\mathbf r)$ by $Q = \int \rho(\mathbf r) d^3 r$. Write 
+$\rho(\mathbf r)$ in terms of $\delta$ functions for the following systems:
 	\begin{itemize}
-		\item Point charge w/ total charge $Q$. Do this in cartesian coordinates $(x,y,z)$, cylindrical coordinates $(\rho, \phi, z)$, and finally in spherical coordinates $(r, \phi, \theta)$.
+		\item Point charge w/ total charge $Q$ centered at the origin. Do this in cartesian coordinates $(x,y,z)$, cylindrical coordinates $(\rho, \phi, z)$, and finally in spherical coordinates $(r, \phi, \theta)$.
 		\item Infinite cylinder with radius $R$, with surface charge $\sigma$.
 		\item Spherical shell of radius $R$, with total charge $Q$. 
 	\end{itemize}
