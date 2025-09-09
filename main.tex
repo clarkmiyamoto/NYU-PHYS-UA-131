@@ -375,6 +375,136 @@ In general, proofs of this nature have lots of by parts calculations.
 \newpage
 \section{Week 2: Helmholtz Theorem}
 
+\newpage
+\section{Week ?: Fourier Series}
+If you're a STEM major, you have probably seen \href{https://www.youtube.com/watch?v=spUNpyF58BY}
+{3Blue1Brown's video on Fourier Analysis} (if you haven't, you should watch it now!). Basically he visualizes how complex signals can be decomposed into a linear combinations of pure signals (sines and cosines). So if you haven't, go watch it now.
+
+Now that you're back, I'll try to introduce it again, but lay the notation \& computational workflow for using this to solve some problems.
+
+\subsection{Inner Products and Orthogonality}
+Recall in linear algebra, we had these things called \textbf{inner products}. 
+\begin{definition}
+	[Inner Product] Let $V$ be a vector space. Consider the operation $\langle \cdot, \cdot \rangle : V \times V \to \mathbb R$. It is an \textbf{inner product} when it has the following properties:
+	\\
+	\\
+	Let $a,b,c \in V$, and $\alpha \in \mathbb R$
+	\begin{itemize}
+		\item Bilineraity (linearity in both arguments): 
+		\begin{align}
+			\langle \alpha (a + b) , c\rangle & = \alpha \langle a, c\rangle  + \alpha \langle b , c\rangle\\
+			\langle a, \alpha (b + c)\rangle &  = \alpha \langle a, b\rangle + \alpha \langle a, c\rangle
+		\end{align}  
+		\item Symmetry: $\langle a, b\rangle = \langle b, a\rangle$
+		\item Positive-Definite: $\langle a, a\rangle \geq 0$, and equal if and only if $a=0$.
+	\end{itemize}
+\end{definition}
+Ok cool definition, but this intuitively allowed us to determine how "aligned" two vectors were with each other. So for example, in $\mathbb R^3$, we had
+\begin{align}
+	\langle \vec a, \vec b\rangle = \vec a^T \vec b =  \sum_i a_i b_i =|a||b| \cos \theta
+\end{align}
+If $\langle \vec a , \vec b\rangle = 0$, then $\theta = 90 deg$ so they were \textbf{orthogonal} (perpendicular) to each other.\\
+\\
+What if we wanted to talk about more exotic objects, such as the inner product between functions? Well, imagine you index your function like a vector $f(x_i) = f_i$, then the dot product would look like $\sum_i f_i g_i = \sum_i f(x_i ) g(x_i)$, add a measure $\Delta x$, and you'd get
+\begin{align}
+	\langle f, g\rangle = \sum_i f(x_i) g(x_i) \Delta x \simeq \int f(x) g(x) dx
+\end{align}
+Now we can detect for "orthogonality" between two functions. 
+\begin{problem}[$\star$ Orthogonality of Cosines and Sines]
+	Show the following is a valid inner product:
+	\begin{align}
+		\langle f, g \rangle = \frac{1}{L} \int_{-L}^L f(x) g(x) dx
+	\end{align}
+	Show cosines and sines of integer frequency ($n,m \in \{1, 2, 3, ...\}$) are orthogonal:
+	\begin{align}
+		\left \langle \cos\left(\frac{n \pi x}{L}\right), \sin\left(\frac{m \pi x}{L} \right) \right\rangle & = 0 \\
+		\left \langle \cos\left(\frac{n \pi x}{L}\right), \cos\left(\frac{m \pi x}{L} \right) \right\rangle & =   \delta_{nm} \\
+		\left \langle \cos\left(\frac{n \pi x}{L}\right), \cos\left(\frac{m \pi x}{L} \right) \right\rangle  & =  \delta_{nm}
+	\end{align}
+	Online, you'll probably find different factors, just note the how the integral changes / the argument of the cosine \& sine.
+\end{problem}
+
+\subsection{Basis}
+Recall in linear algebra that you had a basis to represent vectors. For example consider vectors $\mathbf v \in \mathbb R^3$, you can decompose it into a linear combination of basis vectors
+\begin{align}
+	\mathbf v = \begin{pmatrix}
+		v_1 \\ v_2 \\ v_3 
+	\end{pmatrix} = v_1 \begin{pmatrix}
+		1 \\ 0 \\ 0
+	\end{pmatrix} + v_2 \begin{pmatrix}
+		0 \\ 1\\ 0
+ 	\end{pmatrix} + v_3 \begin{pmatrix}
+ 		0 \\ 0 \\ 1
+ 	\end{pmatrix}
+\end{align}I'll denote the basis vectors as $\{\mathbf{\hat e}^{(i)}\}_{i=1}^3$. Lucky for us, I've chosen a set of orthogonal basis vectors, that is under an inner product $\langle \mathbf{\hat e}^{(i)}, \mathbf{\hat e}^{(j)} \rangle = \delta_{ij}$.
+
+
+Sooo, what if your vector is in a really huge vector space $\mathbf v \in \mathbb R^d$? Well, same thing goes
+\begin{align}
+	\mathbf v = v_1 \begin{pmatrix}
+		1 \\ 0 \\ 0 \\ \vdots
+	\end{pmatrix} + v_2 \begin{pmatrix}
+		0 \\ 1 \\ 0 \\ \vdots
+	\end{pmatrix} + ... +  v_d \begin{pmatrix}
+		\vdots \\ 0 \\ 0 \\ 1
+	\end{pmatrix} = \sum_{i=1}^d v_i \mathbf{\hat e}^{(i)}
+\end{align}
+Ok, now keep this in your mind. Let's talk about functions, and I'll jump back to what I just talked about.\\
+\\
+So do you remember how you can Taylor series expand a function?
+\begin{align}
+	f(x) = \sum_{n=0}^\infty \underbrace{\frac{f^{(n)}(0)}{n!}}_{v_n} \underbrace{x^n}_{\mathbf{\hat e}^{(n)}}
+\end{align}
+Notice, this should remind you of the previous term. Heuristically, this look like your basis vectors are
+\begin{align}
+	f(x) = f(0) \begin{pmatrix}
+		1 \\ 0 \\ 0 \\ \vdots
+	\end{pmatrix} + f'(0) \begin{pmatrix}
+		0 \\ x \\ 0 \\ \vdots
+ 	\end{pmatrix} + \frac{f''(0)}{2!} \begin{pmatrix}
+ 		0 \\ 0 \\ x^2 \\ \vdots
+ 	\end{pmatrix} + ...
+\end{align}
+Woah... So Clark what are you tryna say? Well, what if we could expand a function in an orthogonal basis? Whattt??
+
+It takes a lot work, but basically the integer frequency cosines and sines form a complete basis. So now we can consider write a function a linear combination of the basis vectors (cosines and sines).
+\begin{align}
+	f(x) & = \sum_{n=0}^\infty A_n \cos\left(\frac{n \pi x}{L}\right) + \sum_{m=0}^\infty B_n \sin\left(\frac{n \pi x}{L}\right)\\
+	& = A_0 + \sum_{n=1}^\infty A_n \cos\left(\frac{n \pi x}{L}\right) + \sum_{m=1}^\infty B_n \sin\left(\frac{n \pi x}{L}\right)
+\end{align}
+
+\subsection{Using Inner Products to Get Coefficients of Basis Vector}
+
+Now you might ask: "Say I'm given an $f(x)$, how do I compute $A_0, A_n, B_n$?"
+\\
+\\
+Let's do this in for discrete case, and then do it for functions. Consider the vector $v \in \mathbb R^d$ decomposed into its orthogonal basis
+\begin{align} 
+	\mathbf v = \sum_{i=1}^d v_i \mathbf{\hat e}^{(i)}
+\end{align}
+If I compute the inner product of this against an arbitrary basis vector, we find it picks out the associated coefficient
+\begin{align}
+	\mathbf{\hat e}^{(j) T}\mathbf v &= \sum_{i=1}^d v_i \mathbf{\hat e}^{(j) T} \mathbf{\hat e}^{(i)}\\
+	\langle \mathbf{\hat e}^{(j)}, \mathbf v\rangle & = \sum_{i=1}^d v_i \langle \mathbf{\hat e}^{(j)},  \mathbf{\hat e}^{(i)} \rangle\\
+	& =\sum_{i=1}^d v_i \delta_{ij}\\
+	& = v_j
+\end{align}
+So let's use the same technique on derive the coefficients of the Fourier series. 
+\begin{problem}[Coefficients of Fourier Series]
+	Consider a function $f(x)$ represented in terms of its Fourier series
+	\begin{align}
+		f(x) = A_0 + \sum_{n=1}^\infty A_n \cos\left(\frac{n\pi x }{L}\right)  + \sum_{n=1}^\infty B_n \sin\left(\frac{n\pi x }{L}\right)
+	\end{align}
+	Derive a relationship between the coefficients and original function:
+	\begin{align}
+		A_0 & = \frac{1}{2L}\int_{-L}^L f(x) dx\\
+		A_n & = \frac{1}{L}\int_{-L}^L f(x) \cos\left(\frac{n\pi x }{L}\right) dx\\
+		B_n & = \frac{1}{L}\int_{-L}^L f(x) \sin\left(\frac{n\pi x }{L}\right) dx
+	\end{align}
+	Hint: Exploit the orthogonality that you've computed in the previous problem.
+\end{problem}
+Congrats! You've derived the Fourier series representation yourself! Be proud!
+
 
 \newpage
 \section{Appendix}
@@ -402,39 +532,9 @@ In classical mechanics, you probably had to work with differential operators. Fo
 
 
 
-\subsection{Helmholtz Theorem}
-\begin{theorem}
-	[Helmholtz Theorem] Consider a vector field $\mathbf F \in C^2(V)$ where the domain is bounded $V \subseteq \mathbb R^3$. Then $\mathbf F$ can be decomposed into a curl free component and divergence free component
-	\begin{align}
-		\mathbf F = - \nabla \Phi + \nabla \times \mathbf A,\\
-		\Phi(\mathbf r)
-	\end{align}
-\end{theorem}
 
 
 
-
-
-
-\subsection{Fourier Analysis}
-If you're a STEM major, you have probably seen \href{https://www.youtube.com/watch?v=spUNpyF58BY}
-{3Blue1Brown's video on Fourier Analysis} (if you haven't, you should watch it now!). Basically he visualizes how complex signals can be decomposed into pure-signals of sines and cosines. I'll try to introduce it again, but lay the notation \& computational workflow for accomplishing this.\\
-\\
-What we'll learn is that any piecewise-smooth function can be represented as a linear combination of $\sin$ and $\cos$
-\begin{align}
-	f(x) & = A_0 + \sum_{n=1}^\infty \left [ A_n \cos \left( \tfrac{2\pi n}{P} x \right) + B_n \sin (\tfrac{2\pi n}{P} x) \right]\\
-	\text{s.t. } A_0 & = \frac{1}{P} \int_{P} f(a)~ da\\
-	A_n & = \frac{2}{P} \int_P f(a) \cos \left( \tfrac{2\pi n}{P} a \right) ~da & (n \geq 1)\\
-	B_n & = \frac{2}{P} \int_P f(x) \sin \left( \tfrac{2\pi n}{P} a \right) ~da & (n \geq 1)
-\end{align}
-
-\subsubsection{Fourier Series Expansion}
-
-
-
-\subsubsection{Fourier Transform}
-
-\subsubsection{Connection to Linear Independence / Basis}
 
 
 
