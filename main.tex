@@ -31,6 +31,7 @@
 \usepackage{cancel} % Cancels to zero
 \usepackage{empheq}
 \usepackage{breqn}
+\usepackage{mathrsfs}
 
 
 % Visualization
@@ -113,6 +114,9 @@
   \end{mdframed}
 }
 
+\def\rcurs{{\mbox{$\resizebox{.16in}{.08in}{\includegraphics{assets/script_r/ScriptR}}$}}}
+\def\brcurs{{\mbox{$\resizebox{.16in}{.08in}{\includegraphics{assets/script_r/BoldR}}$}}}
+\def\hrcurs{{\mbox{$\hat \brcurs$}}}
 
 
 
@@ -373,7 +377,86 @@ In general, proofs of this nature have lots of by parts calculations.
 \end{problem}
 
 \newpage
-\section{Week 2: Helmholtz Theorem}
+\section{Week 2: Gauss' Law}
+This week we get some practice using Gauss' Law
+\begin{problem}[$\star$ Spherical Gauss' Law]
+	Consider a sphere of radius $R$ with total charge $Q$. The charge is spread out uniformly across the entire sphere. A common question is, what is the electric field $\mathbf E(\mathbf r)$ associated with this system? \\
+	\\
+	Let's derive this together using Gauss' Law. I'll ask you guiding questions to get you half the way there, and you piece together the rest!
+	\begin{enumerate}
+		\item Draw and write down the charge distribution $\rho(\mathbf r)$ of this system.
+		\item How do we relate the electric field $\mathbf E(\mathbf r)$, the charge distribution $\rho(\mathbf r)$, and integration? 
+		\item You've probably hit a point where you need to specify a test volume $\mathcal V$ to integrate over. What volume should you take? Why? Draw it 
+		\item What is the surface area $S$ and volume $V$ of your chosen test volume $\mathcal V$?  
+		\item Your integral equation in part (2) requires associated measures for said test surface $\mathcal S = \partial \mathcal V$ \& volume $\mathcal V$. So what are the corresponding measures of the surface integral $d S$ and volume integral $dV$? What vector do you associated to the measure of the surface integral $d \mathbf S$?
+		\item What is the electric field $\mathbf E(\mathbf r)$ inside and outside the sphere. Show you recover a point charge outside.
+	\end{enumerate}
+	Note: on a test, you'll be asked to determine the electric field $\mathbf E(\mathbf r)$ without being told to use $\mathbf E(\mathbf r)$, and without any of the guiding in-between steps. Think about how you could have solve the problem end-to-end?
+	\\
+	\\
+	Discussion:
+	\begin{itemize}
+		\item In part 2, why did I guide you towards integration? Why is the differential form of Gauss' Law not useful here?
+		\item For this problem, which method did you prefer? Integrating the charge distribution $\mathbf E(\mathbf r) = \frac{1}{4\pi \epsilon_0} \int \frac{\rho(\mathbf r')}{\rcurs^2} \mathscr{r} \hrcurs d^3 r'$	or using the integral form of Gauss' Law $\int_{\partial V} \mathbf E(\mathbf r) \cdot d \mathbf S = \int_V \rho(\mathbf r) d^3 r $? Can you given an example system where you'd prefer using the other method?
+		\item Notice you had symmetries in your charge distribution $\rho(\mathbf r)$. How does this information constrain the possible electric fields $\mathbf E(\mathbf r)$ that can result?
+	\end{itemize}
+\end{problem}
+\begin{answer}
+	Note: this isn't the answer to everything, but me just working through the problem for future reference. Not very pedagogical.\\
+	\\
+	To find the resulting electric field $\mathbf E(\mathbf r)$ (in spherical coordinates $\mathbf r = (r, \phi, \theta)$, first stat by writing down Gauss's Law in integral form
+	\begin{align}
+		\int_{\partial V} \mathbf E(\mathbf r) \cdot d \mathbf S = \frac{1}{\epsilon_0}\int \rho (\mathbf r) d^3 r
+	\end{align}
+	You always want the symmetry of your test volume $V$ to match the symmetry of the charge distribution. So you should choose $V$ to be a sphere of radius $r$.\\
+	\\
+	The charge distribution changes depending on whether you're inside or outside the sphere, so we should expect a change in electric field strength.\\
+	\\
+	Case: Inside sphere $(r \leq R)$.
+	\begin{align}
+		\int_\Omega \mathbf E(\mathbf r) \cdot \mathbf{\hat r} ~ r^2 d\Omega & = \frac{1}{\epsilon_0} \frac{Q}{\frac{4}{3}\pi R^3} \int_{\Omega} \int_0^r  r^2 d\Omega\\
+		\int_\Omega \mathbf E(\mathbf r) \cdot \mathbf{\hat r} ~ r^2 d\Omega & = \frac{1}{4\pi \epsilon_0}\frac{3Q}{R^3} \left(\frac{r^3}{3}\right) \left(4\pi\right)\\
+		\mathbf E(\mathbf r) \cdot \mathbf{\hat r} (r^2) (4\pi) & =  \frac{1}{4\pi \epsilon_0}\frac{3Q}{R^3} \left(\frac{r^3}{3}\right) \left(4\pi\right)\\
+		\mathbf E(\mathbf r) & = \frac{1}{4\pi \epsilon_0} \frac{Q r}{R^3} \mathbf{\hat r}
+	\end{align}
+	where $d\Omega$ integrates over the solid-angle.\\
+	\\
+	Case: Outside sphere $(r > R)$
+	\begin{align}
+		\int_\Omega \mathbf E(\mathbf r) \cdot \mathbf{\hat r} ~ r^2 d\Omega & = \frac{Q_{encl}}{\epsilon_0} = \frac{Q}{\epsilon_0}\\
+		\mathbf E(\mathbf r) & = \frac{1}{4\pi \epsilon_0}\frac{Q}{r^2} \mathbf{\hat r}
+	\end{align}
+	So your final answer is
+	\begin{align}
+		\boxed{\mathbf E(\mathbf r) = \begin{cases}
+			\frac{1}{4\pi \epsilon_0} \frac{Q r}{R^3} \mathbf{\hat r} & r \leq R\\
+			\frac{1}{4\pi \epsilon_0}\frac{Q}{r^2} \mathbf{\hat r} & r > R
+		\end{cases}}
+	\end{align}
+	
+\end{answer}
+
+\begin{problem}[$\star$ Flux Conundrums]
+	Here we explore a *slight* paradoxes which arise when we use Gauss' Law. 
+	\begin{enumerate}
+		\item Consider a uniformly charged sphere of radius $R$ with total charge $Q$. Use a test volume $\mathcal V$ which is a sphere of radius $r$. What is the electric flux inside and outside the sphere? What is the electric field (see previous problem)?
+		\item Now add a point charge outside of the sphere at a distance $L$ away (that is $L > R$). Now using the same test volume $\mathcal V$, what is the electric flux inside and outside the sphere? What is the electric field now?
+	\end{enumerate}
+	What changed, what stayed the same. Why are you still a happy physicist?
+\end{problem}
+
+
+
+\newpage
+\section{Week 3: Laplace Equation}
+\begin{itemize}
+	\item Harmonic functions
+	\item Show sines and cosines are eigenfunctions of the laplacian operator.
+	\item Fourier transforms
+\end{itemize}
+
+\newpage
+\section{Week (?): Helmholtz Theorem}
 
 \newpage
 \section{Week ?: Fourier Series}
