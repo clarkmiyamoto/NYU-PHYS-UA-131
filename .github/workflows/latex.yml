@@ -12,6 +12,15 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
+        with:
+          lfs: true  # IMPORTANT if assets are tracked by Git LFS
+
+      - name: List assets
+        run: |
+          ls -la
+          ls -la assets || true
+          ls -la assets/script_r || true
+          file assets/script_r/ScriptR.pdf || true
       
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
