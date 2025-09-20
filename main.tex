@@ -449,15 +449,86 @@ This week we get some practice using Gauss' Law
 
 
 \newpage
-\section{Week 3: Laplace Equation}
-\begin{itemize}
-	\item Harmonic functions
-	\item Show sines and cosines are eigenfunctions of the laplacian operator.
-	\item Fourier transforms
-\end{itemize}
+\section{Week 3: Multivariable Calculus}
+Ok Grier feels like the students had a couple questions about multivariable calculus, so I think it'd be good to take a recitation to do a basic review of some concepts
 
+\subsection{Multivariable Integration by parts}
+Integration by parts in multiple variables seems like a daunting. I mean there's so many new derivative operators, so how can you memorize them all? Well the secret is not to memorize, but to figure out how derive! \\
+\\
+Let's start w/ 1D integration by parts, and see how it generalizes to multiple dimensions.
+
+\subsubsection{Integration by parts in 1D}
+Recall the famous: integration by parts
+\begin{align}
+	\int_I u dv = u v \Big |_{\partial I} - \int_I v du
+\end{align}
+where $I$ is some interval on the real line (for example $I = [0, +\infty)$).\\
+\\
+\emph{Proof:}
+Consider the total derivative of a function $f(x_1, ..., x_n)$
+\begin{align}
+	df = \sum_{i=1}^n \frac{\partial f}{\partial x_i} dx_i
+\end{align}
+This has a product rule, meaning for functions $u$ and $v$:
+\begin{align}
+	d(uv) = (du) \cdot  v + u \cdot (dv)
+\end{align}
+\begin{problem}
+	Prove the product rule of the total derivative.
+\end{problem}
+\begin{sidework}
+	A small proof the product rule of the total derivative 
+	\begin{align}
+		d(fg) & =  \sum_i \frac{\partial(fg)}{\partial x_i}  dx_i \\
+		& = \sum_i \left(\frac{\partial f}{\partial x_i} g + f \frac{\partial g}{\partial x_i}\right)dx_i \\
+		& = \left(\sum_i \frac{\partial f}{\partial x_i} dx_i  \right)\cdot  g + f \cdot \left(\sum_i \frac{\partial g}{\partial x_i} dx_i  \right)\\
+		& = (df)~g + f~ (dg)
+	\end{align}
+\end{sidework}
+Notice the LHS of the integration by parts formula is $u (dv)$, so we can use our product rule from the total derivative to get
+\begin{align}
+	u dv = d(uv) - v du \implies \int u ~dv = \int d(uv) - \int v ~du
+\end{align}
+By the fundamental theorem of calculus $\int_I df = f \Big|_{\partial I}$. So you're left with
+\begin{align}
+	\int u~ dv = uv \Big|_{\partial I} - \int v ~du
+\end{align}
+QED.
+\subsubsection{Integration in Multiple Variables}
+The natural generalization of the derivative is the gradient $\nabla$. Now let's do the same derivation, and just turn the crank. \\
+\\
+For example, consider
+\begin{align}
+	\int_V f (\nabla g) ~ dV = \int_{\partial V} fg \mathbf ~d\mathbf S - \int_V g \nabla f ~ dV
+\end{align}
+\emph{Proof:} Notice the product rule
+\begin{align}
+	\nabla(fg) = (\nabla f) g + f (\nabla g) \implies f(\nabla g) = \nabla(fg) - (\nabla f) g
+\end{align}
+Do a volume integration over both sides
+\begin{align}
+	\int_V f(\nabla g) dV = \int_V \nabla (fg) dV - \int_V (\nabla f) g dV
+\end{align}
+To simplify the $\nabla(fg)$ term, we can use the divergence theorem. Consider the vector field $\mathbf F_i = fg ~ \mathbf{\hat e_i}$, where $\mathbf{\hat e_i}$ is the unit vector in the $i$'th direction. This means $\nabla(fg) = \sum_i \frac{\partial}{\partial x_i} \mathbf F_i = \sum_i (\nabla \cdot \mathbf F_i) \mathbf{\hat e_i}$.\begin{align}
+	\int_V \nabla (fg) dV & = \sum_i \mathbf{\hat e_i} \int_V (\nabla \cdot \mathbf F_i)  dV \\
+	& =  \sum_i \mathbf{\hat e_i}\int_{\partial V} fg ~ \mathbf{\hat e}_i\cdot d \mathbf S\\
+	&  = \int_{\partial V} fg~ d\mathbf S
+\end{align}
+Putting it togther we find
+\begin{align}
+	\int_V f(\nabla g) dV = \int_{\partial V} fg ~d\mathbf S - \int_V g\nabla f~ dV
+\end{align}
+QED.
+\begin{problem}
+	Now it's your turn, prove the following multivariable integration by parts formulas
+	\begin{align}
+		\int_V \nabla f \cdot \nabla g ~ dV & = \int_{\partial V} f\nabla g \cdot d \mathbf S - \int_V f\nabla^2 g ~ dV\\
+		\int_V (f \nabla^2 g - g \nabla^2 f) dV& = \int_{\partial V} (f \nabla g - g \nabla f) \cdot d \mathbf S
+	\end{align}
+	Think about what product rule do you need to get yourself there?
+\end{problem}
 \newpage
-\section{Week (?): Helmholtz Theorem}
+\section{Week (?) Helmholtz Theorem}
 
 \newpage
 \section{Week ?: Fourier Series}
