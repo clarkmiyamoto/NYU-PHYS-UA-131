@@ -20,6 +20,7 @@
 \newtheorem{definition}{Definition}
 \newtheorem{proof}{Proof}
 \newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 \newtheorem{fact}{Fact}
 \newtheorem{example}{Example}
 
@@ -528,7 +529,119 @@ QED.
 	Think about what product rule do you need to get yourself there?
 \end{problem}
 \newpage
-\section{Week (?) Helmholtz Theorem}
+
+\section{Week 4: Harmonic Functions}
+So in class, recall we derive the Laplace equation. We started at the differential form of Gauss' Law
+\begin{align}
+	\nabla \cdot \mathbf E = \rho / \epsilon_0
+\end{align}
+And then we said, there exists an electric potential (analogous to the potential $U$ in classical mechanics), defined as
+\begin{align}
+	\mathbf E = - \nabla V
+\end{align}
+Plugging this into your Gauss' law, and solving this s.t. the domain had no charge (that is $\rho = 0$). We found
+\begin{align}
+	\nabla^2 V = 0
+\end{align}
+This is \textbf{Laplace's equation}. This is a very special equation because (1) it's super general and appears in a bunch of other disciplines (i.e. fluid dynamics), and (2) it is difficult to solve (for particular boundary conditions) but we can make some very general statements about said equation.\\
+\\
+This equation is so important, we give its solutions a name:
+\begin{definition}
+	[Harmonic Functions] Consider a twice-differentiable function $V : \Omega \to \mathbb R$, where $\Omega$ is an open subset of $\mathbb R^n$. If this function satisfies Laplace's Equation
+	\begin{align}
+		\nabla^2 V = 0
+	\end{align}
+	everywhere on $\Omega$, then it is called a \textbf{harmonic function}.
+\end{definition}
+
+\subsection{Mean Value Property}
+The most important fact about harmonic functions is that they always equal the average of their nearby values. This is known as the mean-value theorem.
+\begin{theorem}
+	Let $f: \mathbb R^3 \to \mathbb R$ be a harmonic function. Given a point $\mathbf p \in \mathbb R^3$, and $r > 0$, let $S_{\mathbf p}(r)$ be a sphere of radius $r$ at point $\mathbf p$. Then
+	\begin{align}
+		f(\mathbf p)&  = \frac{1}{4\pi r^2} \int_{S_{\mathbf p}(r)} f(x') dx'
+	\end{align}
+	In plain english. The value of the function at point $\mathbf p$ is equal to the average of said the function over it's neighbors.  
+\end{theorem}
+\emph{Proof:} Consider the function
+\begin{align}
+	A(r) = \frac{1}{4\pi r^2} \int_{S_{\mathbf p}(r)} f(x') dS'
+\end{align}
+where $dS$ is the integral over the surface area of the sphere $S_{\mathbf p}(r)$.
+We'll show that $A(r)$ is a constant (w.r.t. $r$) and that it equals $f(\mathbf p)$\\
+\\
+Right now it's quite difficult to take the derivative of $r$ because it shows up in the bounds of the integral. What if we could make the bounds static, and place the $r$ dependence inside of the function?
+\\
+\\
+The trick is to recall the definition of $S_{\mathbf p}(r)$
+\begin{align}
+	S_{\mathbf p}(r) = \{ \mathbf x \in \mathbb R^3 : (\mathbf x -\mathbf p)^2 = r^2\}
+\end{align}
+If we realize what this vector notation is say, it's saying that any points on the surface of the sphere $\mathbf x$, can be rewritten as the point $\mathbf p$ and a scaled unit-vector pointing radialy away from the center of the sphere $\mathbf{\hat n}$. This is exaclty
+\begin{align}
+	\mathbf{\hat n} = \frac{\mathbf x - \mathbf p}{|\mathbf x - \mathbf p|} = \frac{\mathbf x - \mathbf p}{r} \implies \mathbf x = \mathbf p + r \mathbf{\hat n}
+\end{align}
+So let's use this fact in attempting to remove the radial dependence from the 
+\begin{align}
+	A(r) & = \frac{1}{4\pi r^2} \int_{S_{\mathbf p}(r)} f(\mathbf x') dS'\\
+	& = \frac{1}{4\pi r^2} \int_{S_{\mathbf p}(1)} f(\mathbf x') r^2 d\Omega' & \text{Wrote out surface integral}\\
+	& = \frac{1}{4\pi} \int_{S_{\mathbf p}(1)} f(\mathbf p + r \mathbf{\hat n}') d\Omega'
+\end{align}
+Now we can take the derivative w.r.t. $r$
+\begin{align}
+	\frac{\partial A}{\partial r} & = \frac{1}{4\pi} \int_{S_p(1)} \frac{\partial}{\partial r}  f(\mathbf p + r \mathbf{\hat n}') d \Omega'\\
+	& = \frac{1}{4\pi} \int_{S_p(1)} \nabla f(\mathbf p + r \mathbf{\hat n}')  \cdot \mathbf{\hat n}' d \Omega' & \text{Chain rule}\\
+	& = \frac{1}{4\pi} \int_{S_p(1)} \nabla f(\mathbf x') \cdot \mathbf{\hat n}' d \Omega'& \text{Recall } \mathbf x' = \mathbf p + r \mathbf{\hat n}'\\
+	& = \frac{1}{4\pi r^2} \int_{S_p(r)} \nabla f(\mathbf x') \cdot d \mathbf S' & \text{Change bounds of integral}\\
+	& = \int_{B_p(r)} \nabla^2 f(\mathbf x') dV' & \text{Divergence theorem}\\
+	& = 0 & \text{Assumed } f \text{ was harmonic} 
+\end{align}
+Now we've shown that $f(r) = C$ on the interval $r \in (0,R)$. Now we can just evaluate it any-point inside the interval to deduce the constant $C$. It's very convenient to consider the $r \to 0$, this is because the volume becomes infinitesimally small, evaluating $f$ only at the center $\mathbf p$. So basically
+\begin{align}
+	\lim_{r \to 0}A(r)  = 
+	\lim_{r \to 0}\frac{1}{4\pi r^2} \int_{S_p(r)} f(\mathbf x') dS' =\int \delta(\mathbf x' -\mathbf p) f(\mathbf x') = f(\mathbf p)
+\end{align}
+If you can show the Gaussian with covariance going to zero is a delta function, you can basically do this proof. This is left as an exercise to the reader (lol I've always wanted to write that).\\
+\\
+Therefore
+\begin{align}
+	f(\mathbf p) = \frac{1}{4\pi r^2} \int_{S_{p}(r) } f(\mathbf x')dS'
+\end{align}
+QED.
+
+\begin{problem}
+ 	There's a more elegant start of the Mean Value Property. It starts with Reynold's Transport Theorem
+ 	\begin{align}
+ 		\frac{d}{dr} \left(\int_{S(r)} u dS\right) = \int_{S_r} (\partial_n u + \frac{2}{r} u) dS 
+ 	\end{align}
+ 	Can you derive this, and then complete the proof?
+\end{problem}
+
+\subsection{Very Useful Corollaries}
+\begin{corollary}[Uniqueness]
+	If $f$ and $g$ are harmonic functions, and $f=g$ on the surface of a bounded region, then $f=g$ inside the region as well.
+\end{corollary}
+\begin{corollary}
+	If $f$ is harmonic and has a local maximum or minimum, then $f$ is constant.
+\end{corollary}
+\begin{corollary}
+	If $f$ is harmonic in a bounded solid region, then its absolute maximum and minimum occur on the boundary.
+\end{corollary}
+
+
+\subsection{What does this mean for physics?}
+\begin{enumerate}
+	\item Boundary value problems have unique solutions. So if you can find any solution which satisfies both laplace's equation and has the right boundary conditions, then you know you have the unique physical solution. For example, this is why method of images works.
+	\item This tells us you can't trap charges using only static electric fields. All extrema of the potential occur on the boundary, not in the bulk (see Earnshaw's Theorem)
+	\item ...
+	
+\end{enumerate}
+
+
+\subsection{References:}
+\begin{itemize}
+	\item \url{https://web.math.ucsb.edu/~cmart07/Harmonic\%20functions.pdf}
+\end{itemize}
 
 \newpage
 \section{Week ?: Fourier Series}
