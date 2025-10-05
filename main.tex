@@ -643,8 +643,24 @@ QED.
 	\item \url{https://web.math.ucsb.edu/~cmart07/Harmonic\%20functions.pdf}
 \end{itemize}
 
+
 \newpage
-\section{Week ?: Fourier Series}
+\section{Week 5: Series Expansions}
+\begin{sidework}
+	Grier is talking about separation of variables. He's talking about
+	\begin{itemize}
+		\item Fourier's theorem (how to expand things in a basis)
+		\item Spherical harmonics \& expansions of special functions
+		\item Strum Louiville Theory (behavior of eigenfunctions of Hermitian operators)
+	\end{itemize}
+	We should frame it as the laplacian operator is a Hermitian operator, and it's eigenvectors describe a complete orthogonal basis. Hence you can write a function as a superposition of said eigenvectors.
+\end{sidework}
+\begin{enumerate}
+	\item Hermitian operators, so need to talk about self-adjointness
+	\item Example problem: show the laplacian is a self-adjoint operator
+	\item 
+\end{enumerate}
+
 If you're a STEM major, you have probably seen \href{https://www.youtube.com/watch?v=spUNpyF58BY}
 {3Blue1Brown's video on Fourier Analysis} (if you haven't, you should watch it now!). Basically he visualizes how complex signals can be decomposed into a linear combinations of pure signals (sines and cosines). So if you haven't, go watch it now.
 
@@ -772,6 +788,79 @@ So let's use the same technique on derive the coefficients of the Fourier series
 	Hint: Exploit the orthogonality that you've computed in the previous problem.
 \end{problem}
 Congrats! You've derived the Fourier series representation yourself! Be proud!
+
+\subsection{Finding Basises}
+A natural question to ask is, are there other expansions (other than cosines and sines)? And if so, how do we find them? This is where Spectral Theorem \& Strum Louiville Theory come in.
+\\
+\\
+In quantum mechanics you learned about spectral theorem
+\begin{theorem}
+	[Spectral Theorem] If you have a Hermitian Operator $H$ (that is $H^\dagger = H$), then the eigenvectors form a complete orthonormal basis.
+\end{theorem}
+You've probably seen this in the context of finite-dimensional matrices, but you can extend this to infinite-dimensional matricies. The reason I bring up infinite dimensional matricies is you can think of matricies as maps from vector to vectors
+\begin{align}
+	M \vec v = \vec w \implies M(\vec v) = \vec w
+\end{align}
+This is exactly how derivatives work
+\begin{align}
+	\frac{d}{dx} (f) = g
+\end{align}
+So that means if you have a derivative operator which is "Hermitian" then its eigenvalues forms a complete orthonormal basis. Now, we have a way to find new basises.
+
+The problem is that it is kinda non-sensical to complex transpose a derivative. This is where the notion of \textbf{self-adjoint} operators come in
+\begin{definition}
+	[Self-Adjoint] A operator $\mathcal L$ on some vector space with an inner product $\langle \cdot, \cdot \rangle$ is called self-adjoint if
+	\begin{align}
+		\langle f, \mathcal L g\rangle = \langle \mathcal L f , g\rangle
+	\end{align}
+	where $f,g$ are arbitrary vectors in the vector space.
+\end{definition} 
+\begin{problem}
+	Show that a matrix is Hermitian if and only if it is self-adjoint w.r.t. the inner product
+	\begin{align}
+		\langle \psi, \phi\rangle = \psi^\dagger \phi
+	\end{align}
+	where $\dagger$ denotes the complex transpose.
+\end{problem}
+So we can see that Hermitian and Self-Adjointness are the same things as each other. So now one more question for you.
+\begin{problem}
+	Recall a slightly modified inner product we defined for cosines and sines
+	\begin{align}
+		\langle f, g \rangle = \int_a^b f^*(x) g(x) dx
+	\end{align}
+	Show the Sturm-Liouville Operator 
+	\begin{align}
+		\mathcal L[f] = \frac{d}{dx} \left[ p(x) \frac{df}{dx} \right] + q(x) f(x)
+	\end{align}
+	is self-adjoint w.r.t. this inner product. Note, this is self-adjoint with the boundary conditions:
+	\begin{align}
+		\left[p(x) \left(f \frac{dg}{dx} - g \frac{df}{dx}\right) \right]_{x=a}^b = 0
+	\end{align}
+\end{problem}
+There are many ways to make this boundary condition go to zero. Here are the common ones
+\begin{itemize}
+	\item Dirichlet: $f(a) = f(b) = 0$
+	\item Neumann: $p(a) \frac{df}{dx} \Big|_{x=a} = p(b) \frac{df}{dx} \Big|_{x=b} = 0$
+	\item Periodic $f(a) = \pm f(b)$ and $\frac{df}{dx} \Big|_{x=a} = \pm p(b) \frac{df}{dx} \Big|_{x=b}$
+\end{itemize}
+You might find the Strum Liouville Operator vaguely familiar, it comes up in different coordinate representations in the Laplacian! That means we can find new basis by changing coordinates + applying various boundary conditions, and then solve the eigenvector problem that comes out.
+\begin{problem}
+	Consider the Laplacian in it's most simplest form: 1-dimension \& in cartesian coordinates.
+	\begin{align}
+		\nabla^2 = \frac{d^2}{dx^2}
+	\end{align} 
+	Find the eigenvector of this operator. These should look very very familiar, holy moly!
+\end{problem}
+So to recap
+\begin{enumerate}
+	\item The eigenvectors of a self-adjoint operators form a orthogonal basis.
+	\item The Laplacian is self-adjoint, hence it's eigenvector $\nabla^2 f_n = \lambda_n f_n$ form a complete basis.
+	\item Therefore we can Taylor expand any function by just considering the eigenvectors of the Laplacian.
+\end{enumerate}
+Wow!
+
+
+
 
 
 \newpage
