@@ -859,6 +859,310 @@ So to recap
 \end{enumerate}
 Wow!
 
+\newpage
+\section{Review for Midterm}
+\subsection{Conceptual Stuff}
+\subsubsection{Path Independence}
+The electrostatic field is a conservative vector field.
+\begin{align}
+	\nabla \times \mathbf E = 0
+\end{align}
+This has two consequences
+\begin{enumerate}
+	\item Due to the curl free condition, you can determine if the field is physical (in the sense it is a solution to electrostatics) by just checking its curl.
+	\item Consider computing the potential of an electric field. It is a line integral $\int_\gamma \mathbf E \cdot d\mathbf{l}$. Because the electric field is conservative, the line integral over it is independent of path, and is solely determined by the initial \& final position of the path.
+\end{enumerate}
+
+\subsubsection{Boundary Conditions}
+Consider a problem where you had to find the electric field / potential where there was a boundary change. To be very specific (cause I personally think Griffith's notation is confusing).
+\\
+\\
+Consider a surface $\partial \Omega$ with surface charge density $\sigma(\mathbf r)$ (this is for positions evaluated along the surface $\mathbf r \in \partial \Omega)$.  The electric field has the boundary condition
+\begin{align}
+	\mathbf E_{\text{outside}}(\mathbf r) - \mathbf E_{\text{inside}}(\mathbf r)  & = \frac{\sigma(\mathbf r)}{\epsilon_0} \mathbf{\hat n}(\mathbf r) & \forall \mathbf r \in \partial \Omega\\
+	\implies \frac{\partial V_{\text{outside}}}{\partial \hat n} - \frac{\partial V_{\text{inside}}}{\partial \hat n} & = - \frac{\sigma(\mathbf r)}{\epsilon_0} & \forall \mathbf r \in \partial \Omega
+\end{align}
+where $\mathbf{\hat n(\mathbf r)}$ is the normal vector of the surface at point $\mathbf r$ along said surface. In plain English, the electric field is discontinuous across a surface, that jump is determined by the surface charge. Also the potential is continuous across the surface.
+\begin{align}
+	V_{\text{above}}(\mathbf r) &= V_{\text{below}} (\mathbf r) & \forall \mathbf r \in \partial \Omega
+\end{align}
+
+\subsection{Non-Exhaustive List of Equations You Should Know}
+
+\begin{align}
+    % Coulomb's Law
+    \mathbf F &= \frac{1}{4\pi \varepsilon_0}\frac{qQ}{r^2} \hat{\mathbf r} \\[6pt]
+    \mathbf F &= Q\mathbf E \\[12pt]
+    % Electric Field
+    \mathbf E(\mathbf r) &= \frac{1}{4\pi \varepsilon_0}\int \frac{\rho(\mathbf r')}{|\mathbf r - \mathbf r'|^2}\hat{\mathbf r} \, d\tau' \\[6pt]
+    \oint \mathbf E \cdot d\mathbf a &= \frac{Q_{\text{enc}}}{\varepsilon_0} \\[6pt]
+    \nabla \cdot \mathbf E &= \frac{\rho}{\varepsilon_0} \\[12pt]
+    % Electric Potential
+    V(\mathbf b) - V(\mathbf a) &= - \int_{\mathbf a}^{\mathbf b} \mathbf E \cdot d\mathbf l \\[6pt]
+    V(\mathbf r) &= \frac{1}{4\pi \varepsilon_0} \int \frac{\rho(\mathbf r')}{|\mathbf r - \mathbf r'|} \, d\tau' \\[6pt]
+    \mathbf E &= - \nabla V \\[12pt]
+    % Boundary Conditions
+    \varepsilon_{\text{above}}\mathbf E_{\text{above}} - \varepsilon_{\text{below}}\mathbf E_{\text{below}} &= \sigma_f \hat{\mathbf n} \\[6pt]
+    \varepsilon_{\text{above}} \frac{\partial V_{\text{above}}}{\partial n} - \varepsilon_{\text{below}} \frac{\partial V_{\text{below}}}{\partial n} &= -\sigma_f \\[12pt]
+    % Electric Potential Energy
+    W &= \frac{1}{2}\sum_{i=1}^n q_i V(\mathbf r_i) \\[6pt]
+    W &= \frac{\varepsilon_0}{2}\int_{\mathbb R^3} E^2 \, d\tau \\[12pt]
+    % Poisson & Laplace Equation
+    \nabla^2 V &= -\frac{\rho}{\varepsilon_0} \\[6pt]
+    \nabla^2 V &= 0 \\[12pt]
+    % Separable Spherical Solution
+    V(r, \theta) &= \sum_{l=0}^\infty \left(A_l r^l + \frac{B_l}{r^{l+1}}\right) P_l(\cos\theta) \\[12pt]
+    % Multipole Expansion
+    V(\mathbf r) &= \frac{1}{4\pi \varepsilon_0} 
+        \sum_{n=0}^\infty \frac{1}{r^{n+1}} 
+        \int (r')^n P_n(\cos \alpha)\rho(\mathbf r')\, d\tau' \\[6pt]
+    \mathbf p &= \int \mathbf r'\rho(\mathbf r')\, d\tau' \\[6pt]
+    V_{\text{mono}}(\mathbf r) &= \frac{1}{4\pi \varepsilon_0}\frac{Q_{\text{total}}}{r} \\[6pt]
+    V_{\text{dip}}(\mathbf r) &= \frac{1}{4\pi \varepsilon_0}\frac{\mathbf p \cdot \hat{\mathbf r}}{r^2}
+\end{align}
+\subsubsection{Also Math Identities}
+Orthogonality of Cosines
+\begin{align}
+	\int_0^a \sin\left( \frac{n \pi x}{a} \right) \sin \left( \frac{m \pi x}{a} \right) dx & = \frac{a}{2} \delta_{nm}\\
+	\int_0^a \cos\left( \frac{n \pi x}{a} \right) \cos \left( \frac{m \pi x}{a} \right) dx & = \frac{a}{2} \delta_{nm} \text{ (for $n,m \neq 0$)}
+\end{align}
+Orthogonality of Legendre Polynomials
+\begin{align}
+	\int_{-1}^1 P_{\ell}(x) P_{\ell'}(x) dx = \frac{2}{2 \ell + 1} \delta_{\ell \ell'}
+\end{align}
+
+
+\newpage
+\subsection{Maxwell's Triangle}
+\begin{figure*}[h]
+	\centering
+	\includegraphics[scale=0.6]{assets/griffiths-triangle.png}
+	\caption{The Griffith's Triangle, how to move from one quantity to another.}
+\end{figure*}
+
+
+
+
+\newpage
+\section{Biot--Savart Law}
+\subsection{Derivation}
+Assume we're in the magnetostatic regime, where all currents are steady:
+\begin{align}
+    \nabla \times \mathbf{B} &= \mu_0 \mathbf{J} \\
+    \nabla \cdot \mathbf{B} &= 0
+\end{align}
+Because $\nabla \cdot \mathbf{B}=0$, we may introduce the vector potential
+$\mathbf{A}$ such that $\mathbf{B} = \nabla \times \mathbf{A}$. From here pick the Coulomb gauge $\nabla \cdot \mathbf{A} = 0$. You can now massage these to into your Maxwell's equations to get
+\begin{align}
+    \nabla \times \mathbf{B}
+    &= \nabla \times (\nabla \times \mathbf{A}) \\
+    &= \nabla(\nabla \cdot \mathbf{A}) - \nabla^2 \mathbf{A} \\
+    &= - \nabla^2 \mathbf{A}\\
+    \implies - \nabla^2 \mathbf{A} & = \mu_0 \mathbf{J}
+\end{align}
+Note that each component of $\mathbf{A}$ satisfies a Poisson equation! 
+To solve this equation, we can ansatz the solution as 
+\begin{align}
+	\mathbf{A}(\mathbf{r})
+    = \frac{\mu_0}{4\pi}
+      \int \frac{\mathbf{J}(\mathbf{r}')}{\|\brcurs\|}
+      \, d^3 r'
+\end{align}
+This is because we have the delta function identity $\nabla^2 \!\left( \frac{1}{\|\brcurs\|} \right)
+    = -4\pi\,\delta(\brcurs)$, where $\nabla$ acts on $\mathbf r$ only (not $\mathbf r'$). From here we can take the curl to get the resulting magnetic field
+\begin{align}
+    \mathbf{B}(\mathbf{r})
+    &= \nabla \times \mathbf{A}(\mathbf{r}) \\
+    &= \frac{\mu_0}{4\pi}
+       \int
+       \mathbf{J}(\mathbf{r}')
+       \times
+       \nabla \!\left( \frac{1}{\|\brcurs\|} \right)
+       \, d^3 r'
+\end{align}
+\begin{align}
+	\boxed{\mathbf{B}(\mathbf{r}) = \frac{\mu_0}{4\pi}
+       \int
+       \mathbf{J}(\mathbf{r}')
+       \times
+       \frac{\hat \brcurs}{\brcurs^2}
+       \, d^3 r'}
+\end{align}
+\begin{sidework}
+	\underline{Example:}  Let's recover the formula that Griffith's tell us. If you have a current density for a thin wire carrying current $I$, you have
+\begin{align}
+    \mathbf{J}(\mathbf{r}') \, d^3 r' = I \, d\boldsymbol{\ell}',
+\end{align}
+This means the fieldbecomes
+\begin{align}
+    \boxed{\mathbf{B}(\mathbf{r})
+    = \frac{\mu_0}{4\pi}
+      \, \int I \,
+      \frac{d\boldsymbol{\ell}' \times \hat \brcurs}{\brcurs^2}}
+\end{align}
+\end{sidework}
+\begin{problem}
+	Consider a circular loop of radius $R$ and current $I$. Find the magnetic field along the centered $z$ axis.
+\end{problem}
+\begin{problem}
+	Consider two parallel wires a distance $d$ apart and carry equal currents $I$ in the same direction (out of the page). Find the magnetic field at a point exactly midway between them.
+\end{problem}
+
+
+\newpage
+\section{Farday's Law}
+\begin{problem}[Induction Stove]
+	An induction stove consists of coils below a ceramic surface. When driven by an AC current, the coil produces a time-varying magnetic field that threads the bottom of a conducting pan and induces eddy currents (which heats the pan).
+	\\
+	
+	As a simplified model, consider the bottom of a pan as a thin conducting disk of radius $R$, thickness $\ell$, and electrical conductivity $\sigma$. The disk lies in the $xy$-plane. Assume that over the area of the disk the magnetic field is spatially uniform and points along $\hat z$
+	\begin{align*}
+		\mathbf B(t) = B_0 \cos (\omega\, t) \, \hat{\mathbf z}
+	\end{align*}
+	\begin{enumerate}
+		\item Find the induced electric field $\mathbf E(\mathbf r, t)$ inside the disk.
+		\item What is the current density $\mathbf J(\mathbf r, t)$ in the pan. Determine wether the current flows clockwise or counterclockwise (as when viewed above).
+		\item By units analysis, we can give a heuristic for the "heating power" of our system
+		\begin{align}
+			P(t)= \int_{\Omega} \mathbf E(\mathbf r', t) \cdot \mathbf J(\mathbf r', t) d^3 \mathbf r'
+		\end{align}
+		where $\Omega$ is where the shape of the object with the induced current is (so it's the disk). What is this quantity? What is the time-averaged power $\langle P \rangle$ over one cycle?
+		\item Why are induction stoves built the way that they are built?
+		\begin{itemize}
+			\item Why do they use high frequency AC, rather than the frequency of the wall $50/60$ Hz.
+			\item Suppose you double the radius of the pan at the bottom? How does the heating power change?
+			\item Why do glass / ceramic pans not heat up? 
+		\end{itemize}
+	\end{enumerate}
+\end{problem}
+\begin{answer}
+	\begin{enumerate}
+		\item Use Faraday's law
+		\begin{align}
+			\oint \mathbf E \cdot d \boldsymbol{\ell} = - \frac{d}{dt} \Phi_B
+		\end{align}
+		\begin{align}
+			\text{LHS} & = \mathbf E\, (2\pi R) \\
+			\text{RHS} & = - \frac{d}{dt} \left ( \pi R^2 B_0 \cos(\omega \, t) \right) =  \pi R^2 B_0 \omega \sin (\omega \, t)\\
+			\implies \mathbf E(t)& = \frac{R}{2} B_0 \omega \, \sin(\omega \, t) \hat \phi
+		\end{align}
+
+		\item Use $\mathbf J = \sigma \mathbf E$
+		\item Integrate your expression over one cycle (that is the period is $T = 2\pi/\omega$)
+	\end{enumerate}
+\end{answer}
+
+\newpage
+\section{Review of Waves}
+
+Consider the wave equation
+\begin{align}
+	\nabla^2 \phi = \frac{1}{v^2} \frac{\partial^2 \phi}{\partial t^2}
+\end{align}
+where $\phi : \mathbb R^3 \times \mathbb R\to \mathbb R$ is a scalar field, $v$ is the speed of the propagating wave. Let's consider the 1d wave equation
+\begin{align}
+	\frac{\partial^2 \phi}{\partial x^2} = \frac{1}{v^2} \frac{\partial^2 \phi}{\partial t^2}
+\end{align}
+The generic solution is
+\begin{align}
+	\phi(x,t) = f(x - v\, t) + g(x + v\, t)
+\end{align}
+The reason this is a wave equation is that it says your intensity shifts in space, according to some time. Draw some diagrams and discuss.
+\\
+\\
+Now let's derive this. Consider the change of coordinates 
+\begin{align}
+	r = x + v \, t,\ \  s = x - v\, t\\
+	\implies x =  \frac{1}{2} (r + s) , \ t = \frac{1}{2v}(r - s)
+\end{align}
+So we ask what's the partial derivative w.r.t. the new coordinates? This involves chain rule
+\begin{align}
+	\frac{\partial }{\partial r} & =  \frac{\partial x}{\partial r} \frac{\partial }{\partial x}  + \frac{\partial t}{\partial r}\frac{\partial}{\partial t} = \frac{1}{2} \frac{\partial}{\partial x} + \frac{1}{2v}\frac{\partial }{\partial t} \right)\\
+	\frac{\partial}{\partial s} & =  \frac{1}{2} \frac{\partial}{\partial x} - \frac{1}{2v}\frac{\partial }{\partial t}  \right)
+\end{align}
+This means the original wave equation gets a nice expression in the new coordinates
+
+\begin{align}
+	\frac{\partial^2 \phi}{\partial x^2} - \frac{1}{v^2} \frac{\partial^2 \phi}{\partial t^2}=  4 \frac{\partial^2 \phi}{\partial r \partial s} = 0
+\end{align}
+This has the solution
+\begin{align}
+	\phi = f(s) + g(r) = f(x -v \, t) + g(x+ v\, t)
+\end{align}
+QED.
+
+\subsection{E\&M Waves in vacum}
+Recall Maxwell's equations in the absence of charge \& current ($\rho = 0, \mathbf J = \mathbf 0$).
+\begin{align}
+	\nabla \cdot \mathbf E & = 0\\
+	\nabla \cdot \mathbf B & = 0\\
+	\nabla \times \mathbf E & = - \frac{\partial \mathbf B}{\partial t}\\
+	\nabla \times \mathbf B & = \mu_0 \epsilon_0 \frac{\partial \mathbf E}{\partial t}
+\end{align}
+You can decouple the $\mathbf E$ and $\mathbf B$ fields by getting the 4th equation and applying the curl.
+\begin{align}
+	\nabla \times \nabla \times \mathbf B & = \mu_0 \epsilon_0 \frac{\partial }{\partial t} (\nabla \times \mathbf E )\\
+	& = - \mu_0 \epsilon_0 \frac{\partial^2 \mathbf B}{\partial t^2} & \nabla \times \mathbf E
+\end{align}
+To simplify the RHS, you can use the vector identity
+\begin{align}
+	\nabla \times \nabla \times \mathbf B = \nabla(\nabla \cdot \mathbf B)- \nabla^2 \mathbf B
+\end{align}
+\begin{problem}
+	Prove the previous identity
+\end{problem}
+Since $\mathbf B$ is divergence free ($\nabla \cdot \mathbf B = 0$), we get
+\begin{align}
+	\boxed{\nabla^2 \mathbf B = \mu_0 \epsilon_0 \frac{\partial^2 \mathbf B}{\partial t^2}}
+\end{align}
+So if we look at the components of $\mathbf B$, we have a wave equation where the speed of the wave propogates at $v = 1/\sqrt{\mu_0 \epsilon_0}$. Since we have experimentally measured $\mu_0, \epsilon_0$ you can plug this in and see what you get. What's amazing is that this is the speed of light!
+\begin{problem}
+	Redo the calculation but derive the wave equation on the $\mathbf E$ field
+	\begin{align}
+		\nabla^2 \mathbf E = \mu_0 \epsilon_0  \frac{\partial^2 \mathbf E}{\partial t^2}
+	\end{align}
+\end{problem}
+
+\subsection{Lorentz Invariance}
+One thing about the wave equation is that it naturally hints at Lorentz invariance (meaning it's an object that is acceptable according to special relativity). \\
+\\
+The key is that objects with the structure $a_\mu b^\mu$ are Lorentz invariant. That is if perform the map $\vec a \mapsto \Lambda \vec a, \vec b \mapsto \Lambda \vec b$, the object doesn't change under the mapping $a^\mu b_\mu \mapsto a^\mu b_\mu$. Physically, this means quantities $a_\mu b^\mu$ will have the same measurements according to all inertial observers.
+\begin{problem}
+	I want you to prove this for yourself. It might look daunting, but it's quite easy when you have all the definitions at hand. Recall...
+\begin{align}
+	a_\mu b^\mu \equiv \sum_{i,j} \eta_{ij} a^i b^j = \vec a^T \eta  \vec b
+\end{align}
+where $\eta$ is the metric
+\begin{align}
+\eta = \text{diag}(-1, +1, +1, +1)	
+\end{align}
+	and the Lorentz transformation goes as 
+	\begin{align}
+		\Lambda = \begin{pmatrix}
+			\gamma & - \gamma \beta\\
+			- \gamma \beta & \gamma
+		\end{pmatrix}
+	\end{align}
+	where $v$ is speed of the frame of reference measured by "stationary observer", $\beta = v/c$, and $\gamma = 1/\sqrt{1 - \beta^2}$. 
+\end{problem}
+
+
+\begin{problem}
+	Show the spacetime interval
+	\begin{align}
+		ds^2 = - dt^2 + dx^2
+	\end{align}
+	is Lorentz invariant. Hint, how can you rewrite $ds^2$ as an object of the following form $a^\mu a_\mu$?
+\end{problem}
+\begin{problem}
+	Show the d'Almbertian 
+	\begin{align}
+		\Box \equiv c^2 \nabla^2 - \partial_t^2
+	\end{align}
+	is Lorentz invariant
+\end{problem}
+
+
 
 
 
@@ -886,8 +1190,6 @@ In classical mechanics, you probably had to work with differential operators. Fo
 
 
  You might have noticed that certain problems are more amendable 
-
-
 
 
 
