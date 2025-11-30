@@ -1,0 +1,45 @@
+\contentsline {section}{\numberline {1}Note to Reader}{2}{section.1}%
+\contentsline {section}{\numberline {2}Week 1: Delta Functions}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Kronecker Delta (Discrete)}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Dirac Delta (Continuous)}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Definition and Properties}{4}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Showing something is a delta function in disguise}{7}{subsubsection.2.2.2}%
+\contentsline {section}{\numberline {3}Week 2: Gauss' Law}{9}{section.3}%
+\contentsline {section}{\numberline {4}Week 3: Multivariable Calculus}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Multivariable Integration by parts}{11}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Integration by parts in 1D}{11}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}Integration in Multiple Variables}{12}{subsubsection.4.1.2}%
+\contentsline {section}{\numberline {5}Week 4: Harmonic Functions}{14}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Mean Value Property}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Very Useful Corollaries}{16}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}What does this mean for physics?}{16}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}References:}{16}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Week 5: Series Expansions}{17}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Inner Products and Orthogonality}{17}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Basis}{18}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Using Inner Products to Get Coefficients of Basis Vector}{19}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Finding Basises}{20}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Review for Midterm}{22}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Conceptual Stuff}{22}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}Path Independence}{22}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}Boundary Conditions}{22}{subsubsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.2}Non-Exhaustive List of Equations You Should Know}{23}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Also Math Identities}{24}{subsubsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.3}Maxwell's Triangle}{25}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Biot--Savart Law}{26}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Derivation}{26}{subsection.8.1}%
+\contentsline {section}{\numberline {9}Farday's Law}{28}{section.9}%
+\contentsline {section}{\numberline {10}Review of Waves}{29}{section.10}%
+\contentsline {subsection}{\numberline {10.1}E\&M Waves in vacum}{29}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Lorentz Invariance}{30}{subsection.10.2}%
+\contentsline {section}{\numberline {11}Review of Special Relativity}{32}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Lorentz Transformation}{32}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}4-Position}{32}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Lorentz Invariance}{33}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}Velocity addition}{34}{subsection.11.4}%
+\contentsline {subsection}{\numberline {11.5}Proper Time}{34}{subsection.11.5}%
+\contentsline {subsection}{\numberline {11.6}E\&M Revisited}{34}{subsection.11.6}%
+\contentsline {section}{\numberline {12}Appendix}{36}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Review of Vector Calculus}{36}{subsection.12.1}%
+\contentsline {subsubsection}{\numberline {12.1.1}Coordinates}{36}{subsubsection.12.1.1}%
+\contentsline {subsubsection}{\numberline {12.1.2}Change of Coordinates of Differential Operators}{36}{subsubsection.12.1.2}%
