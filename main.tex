@@ -1175,7 +1175,7 @@ Something that I'll ask you to remember
 	Consider two inertial frames $S, S'$, moving at a relative speed $v$. If observer $S$ sees the event at coordinates $(ct,x)$ and observer $S'$ sees the event at coordinates $(ct', x')$, these coordinates are related via
 	\begin{align}
 		ct' & = \gamma \left(ct- \beta \, x \right) \\
-		x' & = \gamma\left( -\beta \, ct + x \right )\\
+		x' & = \gamma\left( -\beta \, ct + x \right )
 	\end{align} 
 \end{definition}
 Since we're grown-ups, we can look at this linear system of equations, and write it as a matrix multiplication
@@ -1220,6 +1220,9 @@ The matrix $\eta$ is called the \textbf{metric}, in special relativity we use th
 		0  & 0 & 0 & 1
 	\end{pmatrix}
 \end{align}
+\begin{sidework}
+	Note this convention is called \emph{mostly-positive}, that is most of the coordinates take a positive sign. I believe the typical convention taught at this level is the \emph{mostly-negative}. I like the mostly-positive because if you have multiple spatial dimensions (i.e. string theory), your calculations don't get a flipping negative sign due to the number of dimensions. Tbh, I don't know the benefits of the mostly negative convention.
+\end{sidework}
 Using the expression for the Minkowski metric, we find (\ref{eqn:spacetime_interval_innerproduct}) becomes
 \begin{align}
 	X \cdot X = - c^2 t^2 + x^2 + y^2 + z^2 = - c^2 t^2 + \mathbf x \cdot \mathbf x
@@ -1228,6 +1231,20 @@ Notice this is the \textbf{spacetime interval} that you've derive in previous cl
 \begin{align}
 	\boxed{ds^2 = - c^2 dt^2 + dx^2}
 \end{align}
+where $ds^2$ is notation for $(ds)^2$.
+You are to interpret this as the measure in a line integral. That is you have some observer who watches a particle trace a path through spacetime $X^\mu(t)$, and you want to ask, what's it's total spacetime interval 
+\begin{align}
+	\int ds = \int \sqrt{-c^2 dt^2 + dx^2} = \int \sqrt{-c^2 + \left(\frac{dx}{dt}\right)^2} dt
+\end{align}
+where $dx/dt$ is the velocity of the particle measured by the observer. Note that the sign of this interval says a couple things.
+\begin{itemize}
+	\item \textbf{Lightlike} $ds^2 = 0$: A particle moving at the speed of light $dx/dt = c$, will cancel out the measure giving an interval of zero.
+	\item \textbf{Timelike} $ds^2 < 0$: These are causally connected events, that is information at this event can propagate to that event.
+	\item \textbf{Spacelike} $ds^2 > 0$: These denotes events that are separated s.t. light could never be transmitted between them. These are causally disconnected events.
+\end{itemize}
+\begin{sidework}
+	Once again, I'll note that the convention of your metric will also change these answers. This will keep happening throughout the lecture, but I won't mention it as much, just keep it in mind.
+\end{sidework}
 
 \subsection{Lorentz Invariance}
 An interesting property is the spacetime interval is Lorentz invariant, that is if you compare the spacetime interval of an event between two observers $S,S'$, moving at some relative speed, they'll say the spacetime interval will be the same. Traditionally, this is proved by plugging in the Lorentz transformation directly and finding it cancels. Let's prove it in a nicer way, using the matrix / vector notation
@@ -1276,13 +1293,52 @@ In the notation, the Lorentz boost depends on velocity $v_1$, so the parenthesis
 		- \gamma_2 \beta_2 & \gamma_2 
 	\end{pmatrix} = \Lambda\left( \frac{v_1 + v_2}{1 + \beta_1 \beta_2} \right)
 \end{align}
-In plain English, if you have two observers $S, S_2$, where $S_2$ is moving at a relative speed $v_2$ to observer $S$. An object moving at speed $v_1$ (measured by $S_2$), will be reported as having a speed
+In plain English, if you have three observers $S, S_1 S_2$, where $S_1$ is moving at a relative speed $v_1$ to $S$, and $S_2$ is moving at a relative speed $v_2$ to $S_1$. Observer $S$ will report $S_2$ is moving at a speed
 \begin{align}
 	\boxed{v = \frac{v_1 + v_2}{1 + \beta_1 \beta_2}}
 \end{align}
-by observer $S$.
+\begin{problem}
+	Sanity check, does this recover the Gallilean velocity addition that  you expect?
+\end{problem}
 
 \subsection{Proper Time}
+So if we want to ask questions about dynamics about a particular object, we need to take derivatives w.r.t. time. The questions is who's time do we take the derivative? 
+
+Perhaps it should be the time experienced by said object (in it's own frame), this is called the \textbf{proper time}. In your own frame, you are spatially stationary. Therefore $d x = 0$.
+\begin{align}
+	ds^2 = -c^2 dt^2 + dx^2 \implies ds^2 = - c^2 dt^2
+\end{align}
+Note that the spacetime interval is invariant to other observers, so different observers will still agree upon this quantity! We'll denote where $\tau$ is the property time
+\begin{align}
+	\boxed{d\tau^2 = - \frac{ds^2}{c^2}}
+\end{align}
+We tack on the minus sign because we desire timelike (which are casual) time intervals to be real valued.
+\begin{sidework}
+	This definition is dependent on the metric. We are using the mostly positive metric, this will change if you're using the mostly minus metric.
+\end{sidework}
+
+\subsection{Time Dilation \& Length Contraction}
+There are two very famous phenomena described by special relativity, \textbf{time dilation} \& \textbf{length contraction}. The physical motivation is that since the speed of light is constant in all inertial frames, it seems time \& length of things must change to accommodate this.
+
+\paragraph{Time Dialation} Our intuition says to inspect the time taken by a particle, this means we should look at the proper time
+\begin{align}
+	\tau = \int d\tau = \int \sqrt{1 - \frac{1}{c^2}\left(\frac{dx}{dt}\right)^2} dt
+\end{align}
+Because $dx/dt < c$ (for physical objects), the integrand is less than unity. Meaning someone observing the object will measure its time to be less than the object's proper time; that is \emph{a moving clock runs slow}. 
+
+Writing this in discrete changes, instead of differentials, we recover the formula we know and love
+\begin{align}
+	\boxed{\Delta \tau = \frac{\Delta t}{\gamma}}
+\end{align}
+Noting that $\gamma \in [0,1]$, it's now very obvious that $\Delta \tau > \Delta t$.
+
+\paragraph{Length Contraction} We can derive length contraction in a similar way. Consider two spacelike separated points, i.e. two ends of a rod. Consider those two points in two reference frames $S, S'$.
+\begin{align}
+	\Delta s^2 & = (\Delta s')^2\\
+	-c^2 \Delta t^2 + \Delta x^2 & = -c^2 (\Delta t')^2 + (\Delta x')^2\\
+	
+\end{align}d
+
 
 
 
