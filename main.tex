@@ -1164,7 +1164,164 @@ where $\eta$ is the metric
 
 
 
+\newpage
+\section{Review of Special Relativity}
+Ok so last week I think I skipped ahead on relativity way too much. This is content from Hartle's book on General Relativity \& Tong's notes on special relativity.
 
+\subsection{Lorentz Transformation}
+Something that I'll ask you to remember
+\begin{definition}
+	[Lorentz Transformation]
+	Consider two inertial frames $S, S'$, moving at a relative speed $v$. If observer $S$ sees the event at coordinates $(ct,x)$ and observer $S'$ sees the event at coordinates $(ct', x')$, these coordinates are related via
+	\begin{align}
+		ct' & = \gamma \left(ct- \beta \, x \right) \\
+		x' & = \gamma\left( -\beta \, ct + x \right )\\
+	\end{align} 
+\end{definition}
+Since we're grown-ups, we can look at this linear system of equations, and write it as a matrix multiplication
+\begin{align}
+	\begin{pmatrix}
+		c t' \\ x'
+	\end{pmatrix} & = \Lambda \begin{pmatrix}
+		ct \\ x
+	\end{pmatrix}\\
+	\text{s.t. } \Lambda & = \begin{pmatrix}
+		\gamma  & - \gamma \beta\\
+		- \gamma \beta & \gamma
+	\end{pmatrix}
+\end{align}
+
+\subsection{4-Position}
+This motivates the first definition
+
+\begin{definition}
+	[4-Position]
+	The 4-position are the spacetime coordinates of an event.
+	\begin{align}
+		X^\mu =  \begin{pmatrix}
+			ct \\ \mathbf x
+ 		\end{pmatrix} = \begin{pmatrix}
+ 			ct \\ x \\ y \\ z
+ 		\end{pmatrix}
+	\end{align}
+	In this notation, the event is observed at time $t$, and at position $(x,y,z)$ by an inertial observer $S$.
+\end{definition}
+The invariant distance between the origin \& and a point in spacetime can be written as an inner product
+\begin{align}
+	\label{eqn:spacetime_interval_innerproduct}
+	X \cdot X = \sum_{\mu} \eta_{\mu \mu} X^\mu X^\mu = X^T \eta X
+\end{align}
+The matrix $\eta$ is called the \textbf{metric}, in special relativity we use the \textbf{Minkowski metric}. This is found by solving Einstein's equations in flat spacetime (no objects with mass nor energy). It has the entries
+\begin{align}
+	\eta = \begin{pmatrix}
+		-1 & 0 & 0 & 0\\
+		0  & 1 & 0 & 0\\
+		0  & 0 & 1 & 0\\
+		0  & 0 & 0 & 1
+	\end{pmatrix}
+\end{align}
+Using the expression for the Minkowski metric, we find (\ref{eqn:spacetime_interval_innerproduct}) becomes
+\begin{align}
+	X \cdot X = - c^2 t^2 + x^2 + y^2 + z^2 = - c^2 t^2 + \mathbf x \cdot \mathbf x
+\end{align}
+Notice this is the \textbf{spacetime interval} that you've derive in previous classes. 
+\begin{align}
+	\boxed{ds^2 = - c^2 dt^2 + dx^2}
+\end{align}
+
+\subsection{Lorentz Invariance}
+An interesting property is the spacetime interval is Lorentz invariant, that is if you compare the spacetime interval of an event between two observers $S,S'$, moving at some relative speed, they'll say the spacetime interval will be the same. Traditionally, this is proved by plugging in the Lorentz transformation directly and finding it cancels. Let's prove it in a nicer way, using the matrix / vector notation
+\begin{align}
+	X' \cdot X' & = (X')^T \eta X'\\
+	& = (\Lambda X)^T \eta (\Lambda X) & \text{Lorentz transform } X' = \Lambda X\\
+	& = X^T (\Lambda^T \eta \Lambda) X\\
+	& = X^T \eta X
+\end{align}
+QED.
+\begin{problem}
+	Prove the Minkowski metric has the following property $\Lambda^T \eta \Lambda = \eta$. This holds true for all speeds of the Lorentz transformation.
+\end{problem}
+
+This may seem new to you, but I promise you it's not. Consider the Euclidean inner product (that is your good old dot product from linear algebra)
+\begin{align}
+	\mathbf r \cdot \mathbf r = \mathbf r^T \mathbf r = x^2 + y^2 + z^2 = |r|^2
+\end{align}
+First, note the metric here is the identity matrix. Secondly, you can ask, what coordinate transformations operations leave the vector invariant. Since the dot product only depends on the vector's magnitude, you can do any rotation or flip and this will be invariant.
+
+Mathematically, we can see this via a direct calculation. Let $\mathbf r' = M \mathbf r$ be the vector observed by a different observer
+\begin{align}
+	\mathbf r' \cdot \mathbf r' & = (\mathbf r')^T \mathbf r' = (M \mathbf r)^T  (M \mathbf r) = \mathbf r M^T M \mathbf r
+\end{align} 
+To get this to be invariant (that is $\mathbf r' \cdot \mathbf r' = \mathbf r \cdot \mathbf r$), you need $M^T M = \mathbb I$, meaning $M$ is an orthogonal matrix ($M^T = M^{-1}$), these are the rotations and flips!
+
+\begin{problem}
+	Consider two events with spacetime coordinates $X, \tilde X$ (observed by the same observer). Show $X \cdot \tilde X$ is Lorentz invariant.
+\end{problem}
+  
+\subsection{Velocity addition}
+By stacking two Lorentz transformations, we can derive the velocity addition formula.
+\begin{align}
+	\Lambda(v) =  \begin{pmatrix}
+		\gamma & - \gamma \beta\\
+		- \gamma \beta & \gamma
+	\end{pmatrix}
+\end{align}
+In the notation, the Lorentz boost depends on velocity $v_1$, so the parenthesis are acting as a function argument. Notice that
+\begin{align}
+	\Lambda(v_1) \Lambda(v_2) = \begin{pmatrix}
+		\gamma_1 & - \gamma_1 \beta_1\\
+		- \gamma_1 \beta_1 & \gamma_1
+	\end{pmatrix} \begin{pmatrix}
+		\gamma_2 & - \gamma_2 \beta_2\\
+		- \gamma_2 \beta_2 & \gamma_2 
+	\end{pmatrix} = \Lambda\left( \frac{v_1 + v_2}{1 + \beta_1 \beta_2} \right)
+\end{align}
+In plain English, if you have two observers $S, S_2$, where $S_2$ is moving at a relative speed $v_2$ to observer $S$. An object moving at speed $v_1$ (measured by $S_2$), will be reported as having a speed
+\begin{align}
+	\boxed{v = \frac{v_1 + v_2}{1 + \beta_1 \beta_2}}
+\end{align}
+by observer $S$.
+
+\subsection{Proper Time}
+
+
+
+
+\begin{definition}
+	[4-Momentum]
+	The 4-momentum is defined as
+	\begin{align}
+		P^\mu = \begin{pmatrix}
+			m c \gamma \\ m \gamma \mathbf u
+		\end{pmatrix}
+	\end{align}
+	where $m$ is the rest mass of the particle, $\gamma = 1/\sqrt{1 - (v/c)^2}$, and $\mathbf u$ is the 3 velocity.
+	
+\end{definition}
+
+
+\subsection{E\&M Revisited}
+Newtons' Laws have a Lorentz invariant form
+\begin{align}
+	\frac{dP^\mu}{d\tau} = F^\mu
+\end{align}
+You rarely see this in classical mechanics because most forces are not valid in relativity. I.e. two blocks pushing against each other, the force is usually transmitted instantaneously, in SR, you have a limit to how fast things can travel (that is the speed of light).
+\begin{align}
+	F^\mu = \frac{q}{c} G^\mu_\nu U^\nu
+\end{align}
+where $U$ is the 4-velocity of a charged particle, and $G$ is the electromagnetic tensor.
+\begin{align}
+	G = \begin{pmatrix}
+		0 & E_1 & E_2 & E_3\\
+		E_1 & 0 & c B_3 & - cB_2 \\
+		E_2 & -c B_3 & 0 & c B_1 \\
+		E_3 & c B_2 & - cB_1 & 0
+	\end{pmatrix}
+\end{align}
+(This tensor usually goes by the name $F^\mu_\nu$ but Tong renames it to prevent confusion from $F^\mu$ the force 4-vector). Where $E_i$ is the electric field in the $i$'th direction, and $B_i$ is the magnetic field in the $i$'th direction.
+\begin{problem}
+	Prove that spatial components give you the Lorentz force law that you know and love. Also show that time-component gives the work done $dW/dt = q \mathbf E \cdot \mathbf u$
+\end{problem}
 
 
 \newpage
@@ -1178,6 +1335,7 @@ Consider a vector $\vec r \in \mathbb R^3$. We can also decompose it a complete 
 \begin{align}
 	\vec r  = x \mathbf{\hat x} + y \mathbf{\hat y} + z \mathbf {\hat z}
 \end{align}
+
 
 
 
